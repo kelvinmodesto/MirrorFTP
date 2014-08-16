@@ -1,7 +1,0 @@
-ftp.xpg.com.br
-21
-60
-tarcisiorocha
-wwnj37jss
-/Users/tarcisio.rocha.DCOMP/Desktop/docs/
-/docs/
