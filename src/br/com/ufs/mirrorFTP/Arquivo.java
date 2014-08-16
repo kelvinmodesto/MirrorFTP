@@ -19,13 +19,13 @@ public class Arquivo {
 	File f = new File("entradas.txt");
 	InputStream is = new FileInputStream(f);
 	BufferedReader br = new BufferedReader(new InputStreamReader(is));
-	String host = br.readLine();
-	int porta = new Integer(br.readLine());
-	int intervalo = new Integer(br.readLine());
-	String usuario = br.readLine();
-	String senha = br.readLine();
-	String dirLocal = br.readLine();
-	String dirRemoto = br.readLine();
+	host = br.readLine();
+	porta = new Integer(br.readLine());
+	intervalo = new Integer(br.readLine());
+	usuario = br.readLine();
+	senha = br.readLine();
+	dirLocal = br.readLine();
+	dirRemoto = br.readLine();
 	}
 
 
