@@ -11,7 +11,10 @@ public class ArqEntrada {
 	//AREA DE VARIAVEIS GLOBAIS
 	private String host, usuario, senha, dirLocal, dirRemoto;
 	private int porta, intervalo;
-
+	
+	public ArqEntrada() throws IOException{
+		this.read();
+	}
 	void read() throws IOException {
 		File f = new File("entradas.txt");
 		InputStream is = new FileInputStream(f);

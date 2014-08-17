@@ -4,7 +4,7 @@ import br.com.ufs.mirrorFTP.arquivos.*;
 public class Teste {
 
 	public static void main(String[] args) {
-
+		
 	}
 
 }
