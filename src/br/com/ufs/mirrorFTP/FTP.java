@@ -98,7 +98,7 @@ public class FTP {
 		this.getControlResp();
 		return resp;
 	}
-
+	
 	public void downloadFile(String nome) throws IOException {
 		this.pasv();
 		String comand = "RETR " + nome + "\r\n";
