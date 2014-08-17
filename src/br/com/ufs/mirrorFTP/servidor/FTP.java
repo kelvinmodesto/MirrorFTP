@@ -107,9 +107,27 @@ public class FTP {
 		}
 	}
 
-	public String list(String diretorio) {
+	public String listar(String diretorio) {
 		this.entrarNoModoPASV();
 		this.enviarCmd("LIST " + diretorio + "\r\n");
+		BufferedReader br;
+		String resp = "";
+		String line;
+		try {
+			br = new BufferedReader(new InputStreamReader(isDados));
+			while ((line = br.readLine()) != null) {
+				resp = resp + "\n" + line;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		this.enviarCmd();
+		return resp;
+	}
+	
+	public String listarNome(String diretorio) {
+		this.entrarNoModoPASV();
+		this.enviarCmd("NLST " + diretorio + "\r\n");
 		BufferedReader br;
 		String resp = "";
 		String line;
