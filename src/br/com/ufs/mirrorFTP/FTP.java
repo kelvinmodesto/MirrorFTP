@@ -2,6 +2,7 @@ package br.com.ufs.mirrorFTP;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,68 +12,80 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.StringTokenizer;
 
-import br.com.ufs.mirrorFTP.arquivos.ArqEntrada;
-
-@SuppressWarnings("unused")
 public class FTP {
-
-	// Area de Variaveis Globais
-
-	private ArqEntrada inFile;
 	private Socket controle;
-	private InputStream iscontr;
-	private OutputStream oucontr;
+	private InputStream isContr;
+	private OutputStream osContr;
 	private Socket dados;
 	private InputStream isData;
-	private OutputStream osData;
-	// 2 flags que se tornam true quando o repositorio eh alterado
-	private boolean LocalModificado = false, RemotoModificado = false;
 
-	private String getControlResp() throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				this.iscontr));
-		String resp = br.readLine();
+	private String enviarCmd() {
+		String resp = null;
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new InputStreamReader(this.isContr));
+			resp = br.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		System.out.println(resp);
 		return resp;
 	}
 
-	// COMANDOS DO FTP
-	public void connect(String host, int port) throws UnknownHostException,
-			IOException {
-		this.controle = new Socket(host, port);
-		this.iscontr = controle.getInputStream();
-		this.oucontr = controle.getOutputStream();
-		this.getControlResp();
+	public void conectar(String end, int porta) {
+		try {
+			this.controle = new Socket(end, porta);
+			this.isContr = controle.getInputStream();
+			this.osContr = controle.getOutputStream();
+			this.enviarCmd();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void logout() throws IOException {
-		String command = "QUIT \r\n";
-		this.oucontr.write(command.getBytes());
-		this.getControlResp();
+	private String enviarCmd(String command) {
+		BufferedReader br;
+		String resp = null;
+		try {
+			this.osContr.write(command.getBytes());
+			br = new BufferedReader(new InputStreamReader(this.isContr));
+			resp = br.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(resp);
+		return resp;
 	}
 
-	public void newFolder(String pasta) throws IOException {
-		String comand = "MKD " + pasta + "\r\n";
-		this.oucontr.write(comand.getBytes());
-		this.getControlResp();
+	public void logar(String usuario, String senha) {
+		this.enviarCmd("USER " + usuario + "\r\n");
+		this.enviarCmd("PASS " + senha + "\r\n");
 	}
 
-	public void changeWorkingDir(String path) throws IOException {
-		String comand = "CWD " + path + "\r\n";
-		this.oucontr.write(comand.getBytes());
-		this.getControlResp();
+	public void deslogar() {
+		this.enviarCmd("QUIT \r\n");
 	}
 
-	public void currentWorkingDir() throws IOException {
-		String comand = "PWD \r\n";
-		this.oucontr.write(comand.getBytes());
-		this.getControlResp();
+	public void criarPasta(String pasta) {
+		this.enviarCmd("MKD " + pasta + "\r\n");
 	}
 
-	private void pasv() throws IOException {
-		String comand = "PASV \r\n";
-		this.oucontr.write(comand.getBytes());
-		String resp = this.getControlResp();
+	public void deletarPasta(String pasta) {
+		this.enviarCmd("RMD " + pasta + "\r\n");
+	}
+
+	public void mudarDir(String caminho) {
+		this.enviarCmd("CWD " + caminho + "\r\n");
+	}
+
+	public void mostrarDirAtual() {
+		this.enviarCmd("PWD \r\n");
+	}
+
+	private void entrarNoModoPASV() {
+		String resp = this.enviarCmd("PASV \r\n");
 		StringTokenizer st = new StringTokenizer(resp);
 		st.nextToken("(");
 		String ip = st.nextToken(",").substring(1) + "." + st.nextToken(",")
@@ -80,64 +93,62 @@ public class FTP {
 		int value1 = Integer.parseInt(st.nextToken(","));
 		int value2 = Integer.parseInt(st.nextToken(")").substring(1));
 		int port = value1 * 256 + value2;
-
-		this.dados = new Socket(ip, port);
-		this.isData = dados.getInputStream();
-		this.osData = dados.getOutputStream();
+		try {
+			this.dados = new Socket(ip, port);
+			this.isData = dados.getInputStream();
+			dados.getOutputStream();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public String list(String path) throws IOException {
-		this.pasv();
-		String comand = "LIST " + path + "\r\n";
-		this.oucontr.write(comand.getBytes());
-		this.getControlResp();
-		BufferedReader br = new BufferedReader(new InputStreamReader(isData));
+	public String list(String caminho) {
+		this.entrarNoModoPASV();
+		this.enviarCmd("LIST " + caminho + "\r\n");
+		BufferedReader br;
 		String resp = "";
 		String line;
-		while ((line = br.readLine()) != null) {
-			resp = resp + "\n" + line;
+		try {
+			br = new BufferedReader(new InputStreamReader(isData));
+			while ((line = br.readLine()) != null) {
+				resp = resp + "\n" + line;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		this.getControlResp();
+		this.enviarCmd();
 		return resp;
 	}
 
-	public void downloadFile(String nome) throws IOException {
-		this.pasv();
-		String comand = "RETR " + nome + "\r\n";
-		this.oucontr.write(comand.getBytes());
-		this.getControlResp();
-		File file = new File("C:/Users/Kelvin/Downloads/" + nome);
-		FileOutputStream fos = new FileOutputStream(file);
-		byte[] buf = new byte[1000];
-		int len;
-		while ((len = this.isData.read(buf)) != -1) {
-			fos.write(buf, 0, len);
+	public void baixarArquivo(String caminho,String arquivo) {
+		this.entrarNoModoPASV();
+		this.enviarCmd("RETR " + arquivo + "\r\n");
+		File file = new File(caminho + arquivo);
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(file);
+			byte[] buf = new byte[1000];
+			int len;
+			while ((len = this.isData.read(buf)) != -1) {
+				fos.write(buf, 0, len);
+			}
+			fos.flush();
+			fos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		fos.flush();
-		fos.close();
-		this.getControlResp();
+		this.enviarCmd();
 	}
 
-	private void changeType(String type) throws IOException {
+	@SuppressWarnings("unused")
+	private void mudarTipo(String type) throws IOException {
 		String msg = "TYPE " + type + "\r\n";
-		this.oucontr.write(msg.getBytes());
-		this.getControlResp();
-	}
-
-	public boolean isLocalModificado() {
-		return LocalModificado;
-	}
-
-	public void setLocalModificado(boolean localModificado) {
-		LocalModificado = localModificado;
-	}
-
-	public boolean isRemotoModificado() {
-		return RemotoModificado;
-	}
-
-	public void setRemotoModificado(boolean remotoModificado) {
-		RemotoModificado = remotoModificado;
+		this.osContr.write(msg.getBytes());
+		this.enviarCmd();
 	}
 
 }
