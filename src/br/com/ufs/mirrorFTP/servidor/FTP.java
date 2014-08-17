@@ -1,4 +1,4 @@
-package br.com.ufs.mirrorFTP;
+package br.com.ufs.mirrorFTP.servidor;
 
 import java.io.BufferedReader;
 import java.io.File;
