@@ -13,10 +13,11 @@ import java.util.StringTokenizer;
 
 import br.com.ufs.mirrorFTP.arquivos.ArqEntrada;
 
+@SuppressWarnings("unused")
 public class FTP {
 
 	// Area de Variaveis Globais
-	
+
 	private ArqEntrada inFile;
 	private Socket controle;
 	private InputStream iscontr;
@@ -24,8 +25,9 @@ public class FTP {
 	private Socket dados;
 	private InputStream isData;
 	private OutputStream osData;
-	//2 flags que se tornam true quando o repositorio eh alterado
-	private boolean LocalModificado=false, RemotoModificado=false;
+	// 2 flags que se tornam true quando o repositorio eh alterado
+	private boolean LocalModificado = false, RemotoModificado = false;
+
 	private String getControlResp() throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				this.iscontr));
@@ -98,7 +100,7 @@ public class FTP {
 		this.getControlResp();
 		return resp;
 	}
-	
+
 	public void downloadFile(String nome) throws IOException {
 		this.pasv();
 		String comand = "RETR " + nome + "\r\n";
