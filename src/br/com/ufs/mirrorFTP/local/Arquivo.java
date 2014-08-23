@@ -11,9 +11,13 @@ public class Arquivo {
 		arq = new File(diretorio);
 		File[] aux = arq.listFiles();
 		List<String> conteudo = new ArrayList<String>();
-		for (int i = 0; i < aux.length; i++) {
-			conteudo.add(aux[i].getName());
-		}
+		if (aux != null)
+			for (int i = 0; i < aux.length; i++) {
+				if (aux[i].isFile())
+					conteudo.add(aux[i].getName());
+				else
+					conteudo.add("*" + aux[i].getName());
+			}
 		return conteudo;
 	}
 }
