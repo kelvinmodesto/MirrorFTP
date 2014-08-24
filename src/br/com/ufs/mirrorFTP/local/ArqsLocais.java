@@ -4,7 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Arquivo {
+import br.com.ufs.mirrorFTP.Arquivos;
+
+public class ArqsLocais extends Arquivos {
 	private File arq;
 
 	public List<String> getConteudo(String diretorio) {

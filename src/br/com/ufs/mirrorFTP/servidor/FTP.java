@@ -124,7 +124,7 @@ public class FTP {
 		this.enviarCmd();
 		return resp;
 	}
-	
+
 	public String listarNome(String diretorio) {
 		this.entrarNoModoPASV();
 		this.enviarCmd("NLST " + diretorio + "\r\n");

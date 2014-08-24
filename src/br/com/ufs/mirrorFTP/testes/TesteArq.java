@@ -3,15 +3,15 @@ package br.com.ufs.mirrorFTP.testes;
 import java.util.List;
 
 import br.com.ufs.mirrorFTP.local.ArqEntrada;
-import br.com.ufs.mirrorFTP.local.Arquivo;
+import br.com.ufs.mirrorFTP.local.ArqsLocais;
 
 public class TesteArq {
 	private ArqEntrada entrada;
-	private Arquivo arq;
+	private ArqsLocais arq;
 
 	public TesteArq() {
 		entrada = new ArqEntrada();
-		arq = new Arquivo();
+		arq = new ArqsLocais();
 		varrerPasta(entrada.getDirLocal());
 	}
 
