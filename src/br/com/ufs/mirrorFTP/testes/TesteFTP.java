@@ -13,28 +13,18 @@ public class TesteFTP {
 	private FTP ftp;
 	private Scanner scan;
 	private ArqsFTP arqftp;
+
 	public TesteFTP() {
 		scan = new Scanner(System.in);
 		entrada = new ArqEntrada();
 		ftp = new FTP();
 		iniciar();
 	}
-	
-	public void varrerFTP(String pasta){
-		List<String> lista = arqftp.getConteudo(pasta);
-		System.out.println("Listando o conteudo da pasta " + pasta);
-		for (int i = 0; i < lista.size(); i++) {
-			if (lista.get(i).startsWith("*"))
-				varrerFTP(pasta + lista.get(i).substring(1) + "/");
-			else
-				System.out.println(lista.get(i));
-		}
-		System.out.println("Fim da listagem da pasta " + pasta);
-	}
-	
+
 	private void iniciar() {
-		ftp.conectar(entrada.getHost(), entrada.getPorta());
-		ftp.logar(entrada.getUsuario(), entrada.getSenha());
+		ftp.conectar();
+		ftp.logar();
+		ftp.relogar();
 	}
 
 	protected void finalize() {
@@ -81,6 +71,11 @@ public class TesteFTP {
 		System.out.println("[Enviar Arquivo]");
 		ftp.enviarArquivo(entrada.getDirLocal(), ler());
 	}
+	
+	private void excluirArq() {
+		System.out.println("[Excluir Arquivo]");
+		ftp.deletarArquivo(entrada.getDirRemoto(), ler());
+	}
 
 	private void mostrarDataModArq() {
 		System.out.println("[Mostrar Data de Modificacao do Arquivo]");
@@ -104,7 +99,8 @@ public class TesteFTP {
 			System.out.println("5 - Listar Pasta");
 			System.out.println("6 - Baixar Arquivo");
 			System.out.println("7 - Enviar Arquivo");
-			System.out.println("8 - Mostrar Data de Modificacao");
+			System.out.println("8 - Excluir Arquivo");
+			System.out.println("9 - Mostrar Data de Modificacao");
 			System.out.println("0 - Sair");
 			int i = lerInt();
 			switch (i) {
@@ -133,12 +129,27 @@ public class TesteFTP {
 				enviarArq();
 				break;
 			case 8:
+				excluirArq();
+				break;
+			case 9:
 				mostrarDataModArq();
 				break;
 			default:
 				System.out.println("Escolha uma opcao valida");
 			}
 		}
+	}
+
+	public void varrerPasta(String pasta) {
+		List<String> lista = arqftp.getConteudo(pasta);
+		System.out.println("Listando o conteudo da pasta " + pasta);
+		for (int i = 0; i < lista.size(); i++) {
+			if (lista.get(i).startsWith("*"))
+				varrerPasta(pasta + lista.get(i).substring(1) + "/");
+			else
+				System.out.println(lista.get(i));
+		}
+		System.out.println("Fim da listagem da pasta " + pasta);
 	}
 
 	public static void main(String[] args) {

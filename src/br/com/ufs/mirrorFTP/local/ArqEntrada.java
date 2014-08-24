@@ -53,27 +53,14 @@ public class ArqEntrada {
 		return dirLocal;
 	}
 
-	public void setDirLocal(String dirLocal) {
-		this.dirLocal = dirLocal;
-	}
-
 	public String getDirRemoto() {
 		return dirRemoto;
 	}
-
-	public void setDirRemoto(String dirRemoto) {
-		this.dirRemoto = dirRemoto;
-	}
-
 	public int getPorta() {
 		return porta;
 	}
 
 	public int getIntervalo() {
 		return intervalo;
-	}
-
-	public void setIntervalo(int intervalo) {
-		this.intervalo = intervalo;
 	}
 }

@@ -14,33 +14,39 @@ import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-public class FTP {
+import br.com.ufs.mirrorFTP.local.ArqEntrada;
+
+public class FTP implements Runnable {
 	private Socket controle;
 	private InputStream isContr;
 	private OutputStream osContr;
 	private Socket dados;
 	private InputStream isDados;
 	private OutputStream osDados;
+	private ArqEntrada entrada;
+
+	public FTP() {
+		entrada = new ArqEntrada();
+	}
 
 	private String enviarCmd() {
 		String resp = null;
 		BufferedReader br;
 		try {
-			br = new BufferedReader(new InputStreamReader(this.isContr));
+			br = new BufferedReader(new InputStreamReader(isContr));
 			resp = br.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(resp);
 		return resp;
 	}
 
-	public void conectar(String end, int porta) {
+	public void conectar() {
 		try {
-			this.controle = new Socket(end, porta);
-			this.isContr = controle.getInputStream();
-			this.osContr = controle.getOutputStream();
-			this.enviarCmd();
+			controle = new Socket(entrada.getHost(), entrada.getPorta());
+			isContr = controle.getInputStream();
+			osContr = controle.getOutputStream();
+			enviarCmd();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -48,47 +54,63 @@ public class FTP {
 		}
 	}
 
+	public void relogar() {
+		new Thread(this).start();
+	}
+
+	public void run() {
+		while (true) {
+			try {
+				Thread.sleep(entrada.getIntervalo() * 1000);
+				deslogar();
+				conectar();
+				logar();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	private String enviarCmd(String command) {
 		BufferedReader br;
 		String resp = null;
 		try {
-			this.osContr.write(command.getBytes());
-			br = new BufferedReader(new InputStreamReader(this.isContr));
+			osContr.write(command.getBytes());
+			br = new BufferedReader(new InputStreamReader(isContr));
 			resp = br.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(resp);
 		return resp;
 	}
 
-	public void logar(String usuario, String senha) {
-		this.enviarCmd("USER " + usuario + "\r\n");
-		this.enviarCmd("PASS " + senha + "\r\n");
+	public void logar() {
+		enviarCmd("USER " + entrada.getUsuario() + "\r\n");
+		enviarCmd("PASS " + entrada.getSenha() + "\r\n");
 	}
 
 	public void deslogar() {
-		this.enviarCmd("QUIT \r\n");
+		enviarCmd("QUIT \r\n");
 	}
 
 	public void criarPasta(String pasta) {
-		this.enviarCmd("MKD " + pasta + "\r\n");
+		enviarCmd("MKD " + pasta + "\r\n");
 	}
 
 	public void deletarPasta(String pasta) {
-		this.enviarCmd("RMD " + pasta + "\r\n");
+		enviarCmd("RMD " + pasta + "\r\n");
 	}
 
 	public void mudarDir(String diretorio) {
-		this.enviarCmd("CWD " + diretorio + "\r\n");
+		enviarCmd("CWD " + diretorio + "\r\n");
 	}
 
 	public void mostrarDirAtual() {
-		this.enviarCmd("PWD \r\n");
+		enviarCmd("PWD \r\n");
 	}
 
 	private void entrarNoModoPASV() {
-		String resp = this.enviarCmd("PASV \r\n");
+		String resp = enviarCmd("PASV \r\n");
 		StringTokenizer st = new StringTokenizer(resp);
 		st.nextToken("(");
 		String ip = st.nextToken(",").substring(1) + "." + st.nextToken(",")
@@ -97,8 +119,8 @@ public class FTP {
 		int value2 = Integer.parseInt(st.nextToken(")").substring(1));
 		int port = value1 * 256 + value2;
 		try {
-			this.dados = new Socket(ip, port);
-			this.isDados = dados.getInputStream();
+			dados = new Socket(ip, port);
+			isDados = dados.getInputStream();
 			dados.getOutputStream();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -108,8 +130,8 @@ public class FTP {
 	}
 
 	public String listar(String diretorio) {
-		this.entrarNoModoPASV();
-		this.enviarCmd("LIST " + diretorio + "\r\n");
+		entrarNoModoPASV();
+		enviarCmd("LIST " + diretorio + "\r\n");
 		BufferedReader br;
 		String resp = "";
 		String line;
@@ -121,13 +143,13 @@ public class FTP {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.enviarCmd();
+		enviarCmd();
 		return resp;
 	}
 
 	public String listarNome(String diretorio) {
-		this.entrarNoModoPASV();
-		this.enviarCmd("NLST " + diretorio + "\r\n");
+		entrarNoModoPASV();
+		enviarCmd("NLST " + diretorio + "\r\n");
 		BufferedReader br;
 		String resp = "";
 		String line;
@@ -139,25 +161,25 @@ public class FTP {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.enviarCmd();
+		enviarCmd();
 		return resp;
 	}
 
 	private void mudarTipo(String tipo) {
-		this.enviarCmd("TYPE " + tipo + "\r\n");
+		enviarCmd("TYPE " + tipo + "\r\n");
 	}
 
 	public void baixarArquivo(String diretorio, String arquivo) {
-		this.entrarNoModoPASV();
-		this.mudarTipo("I");
-		this.enviarCmd("RETR " + arquivo + "\r\n");
+		entrarNoModoPASV();
+		mudarTipo("I");
+		enviarCmd("RETR " + arquivo + "\r\n");
 		File file = new File(diretorio + arquivo);
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(file);
 			byte[] buf = new byte[1000];
 			int len;
-			while ((len = this.isDados.read(buf)) != -1) {
+			while ((len = isDados.read(buf)) != -1) {
 				fos.write(buf, 0, len);
 			}
 			fos.flush();
@@ -168,13 +190,13 @@ public class FTP {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.enviarCmd();
+		enviarCmd();
 	}
 
 	public void enviarArquivo(String diretorio, String arquivo) {
-		this.entrarNoModoPASV();
-		this.mudarTipo("I");
-		this.enviarCmd("STOR " + arquivo + "\r\n");
+		entrarNoModoPASV();
+		mudarTipo("I");
+		enviarCmd("STOR " + arquivo + "\r\n");
 		File file = new File(diretorio + arquivo);
 		FileInputStream fis = null;
 		try {
@@ -182,7 +204,7 @@ public class FTP {
 			byte[] buf = new byte[1000];
 			int len;
 			while ((len = fis.read(buf)) != -1) {
-				this.osDados.write(buf, 0, len);
+				osDados.write(buf, 0, len);
 			}
 			fis.close();
 			dados.close();
@@ -191,11 +213,15 @@ public class FTP {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.enviarCmd();
+		enviarCmd();
+	}
+	
+	public void deletarArquivo(String diretorio, String arquivo) {
+		enviarCmd("DELE " + diretorio + "/"+ arquivo + "\r\n");
 	}
 
 	public Date getDataModArq(String arquivo) {
-		String resp = this.enviarCmd("MDTM " + arquivo + "\r\n").replaceAll(
+		String resp = enviarCmd("MDTM " + arquivo + "\r\n").replaceAll(
 				" ", "");
 		char[] aux = resp.toCharArray();
 		for (int i = 0; i < 3; i++) {
@@ -203,10 +229,6 @@ public class FTP {
 		}
 		resp = new String(aux);
 		return new Date(Long.parseLong(resp));
-	}
-
-	public InputStream getIsDados() {
-		return isDados;
 	}
 
 }
