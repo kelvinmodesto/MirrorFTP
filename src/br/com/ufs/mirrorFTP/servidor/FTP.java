@@ -205,4 +205,8 @@ public class FTP {
 		return new Date(Long.parseLong(resp));
 	}
 
+	public InputStream getIsDados() {
+		return isDados;
+	}
+
 }

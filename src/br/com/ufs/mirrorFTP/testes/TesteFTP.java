@@ -10,14 +10,18 @@ public class TesteFTP {
 	private ArqEntrada entrada;
 	private FTP ftp;
 	private Scanner scan;
-
+	
 	public TesteFTP() {
 		scan = new Scanner(System.in);
 		entrada = new ArqEntrada();
 		ftp = new FTP();
 		iniciar();
 	}
-
+	
+	public void varrerFTP(){
+		
+	}
+	
 	private void iniciar() {
 		ftp.conectar(entrada.getHost(), entrada.getPorta());
 		ftp.logar(entrada.getUsuario(), entrada.getSenha());
