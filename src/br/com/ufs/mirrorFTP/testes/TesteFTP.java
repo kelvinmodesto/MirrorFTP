@@ -1,8 +1,10 @@
 package br.com.ufs.mirrorFTP.testes;
 
+import java.util.List;
 import java.util.Scanner;
 
 import br.com.ufs.mirrorFTP.local.ArqEntrada;
+import br.com.ufs.mirrorFTP.servidor.ArqsFTP;
 import br.com.ufs.mirrorFTP.servidor.FTP;
 
 public class TesteFTP {
@@ -10,7 +12,7 @@ public class TesteFTP {
 	private ArqEntrada entrada;
 	private FTP ftp;
 	private Scanner scan;
-	
+	private ArqsFTP arqftp;
 	public TesteFTP() {
 		scan = new Scanner(System.in);
 		entrada = new ArqEntrada();
@@ -18,8 +20,16 @@ public class TesteFTP {
 		iniciar();
 	}
 	
-	public void varrerFTP(){
-		
+	public void varrerFTP(String pasta){
+		List<String> lista = arqftp.getConteudo(pasta);
+		System.out.println("Listando o conteudo da pasta " + pasta);
+		for (int i = 0; i < lista.size(); i++) {
+			if (lista.get(i).startsWith("*"))
+				varrerFTP(pasta + lista.get(i).substring(1) + "/");
+			else
+				System.out.println(lista.get(i));
+		}
+		System.out.println("Fim da listagem da pasta " + pasta);
 	}
 	
 	private void iniciar() {
