@@ -1,22 +1,23 @@
-package br.com.ufs.mirrorFTP.testes;
+package br.com.ufs.mirrorFTP.testes.servidor;
 
 import java.util.List;
 
 import br.com.ufs.mirrorFTP.local.ArqEntrada;
-import br.com.ufs.mirrorFTP.local.ArqsLocais;
+import br.com.ufs.mirrorFTP.servidor.ArqsFTP;
 
-public class TesteArq {
+public class TesteArqsFTP {
+
+	private ArqsFTP arqsFTP;
 	private ArqEntrada entrada;
-	private ArqsLocais arq;
 
-	public TesteArq() {
+	public TesteArqsFTP() {
 		entrada = new ArqEntrada();
-		arq = new ArqsLocais();
-		varrerPasta(entrada.getDirLocal());
+		arqsFTP = new ArqsFTP();
+		varrerPasta(entrada.getDirRemoto());
 	}
-
+	
 	public void varrerPasta(String pasta) {
-		List<String> lista = arq.getConteudo(pasta);
+		List<String> lista = arqsFTP.getConteudo(pasta);
 		System.out.println("Listando o conteudo da pasta " + pasta);
 		for (int i = 0; i < lista.size(); i++) {
 			if (lista.get(i).startsWith("*"))
@@ -26,8 +27,8 @@ public class TesteArq {
 		}
 		System.out.println("Fim da listagem da pasta " + pasta);
 	}
-
+	
 	public static void main(String[] args) {
-		new TesteArq();
+		new TesteArqsFTP();
 	}
 }

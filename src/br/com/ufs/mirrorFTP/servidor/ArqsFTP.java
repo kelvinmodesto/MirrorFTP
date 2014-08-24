@@ -1,6 +1,5 @@
 package br.com.ufs.mirrorFTP.servidor;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,19 +22,25 @@ public class ArqsFTP extends Arquivos {
 		ftp.deslogar();
 	}
 
-	public List<String> getConteudo(String diretorio) {
-		List<String> conteudo = new ArrayList<String>();
-		String nlist = ftp.listarNome(diretorio);
+	private String getNomeDirArq(String line) {		
+		String aux[] = line.split(";");
+		if (aux.length > 1)
+			if (aux[2].startsWith("size"))
+				return aux[8].substring(1);
+			else if (aux[2].split("=")[1].matches("dir"))
+				return aux[7].replaceFirst(" ", "*");
+		return "";
+	}
 
-		if (nlist != null) {
-			String[] listArq = nlist.split("\n");
-			for (int i = 0; i < listArq.length; i++) {
-				File f = new File(listArq[i]);
-				if (f.isFile()) {
-					conteudo.add(listArq[i]);
-				} else {
-					conteudo.add("*" + listArq[i]);
-				}
+	public List<String> getConteudo(String diretorio) {
+		String[] lista = ftp.listarConteudo(diretorio).split("\n");
+		List<String> conteudo = new ArrayList<String>();
+		if (lista != null) {
+			String aux;
+			for (int i = 0; i < lista.length; i++) {
+				aux = getNomeDirArq(lista[i]);
+				if (aux != "")
+					conteudo.add(aux);
 			}
 		}
 		return conteudo;

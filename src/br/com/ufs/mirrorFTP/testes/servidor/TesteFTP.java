@@ -1,10 +1,8 @@
-package br.com.ufs.mirrorFTP.testes;
+package br.com.ufs.mirrorFTP.testes.servidor;
 
-import java.util.List;
 import java.util.Scanner;
 
 import br.com.ufs.mirrorFTP.local.ArqEntrada;
-import br.com.ufs.mirrorFTP.servidor.ArqsFTP;
 import br.com.ufs.mirrorFTP.servidor.FTP;
 
 public class TesteFTP {
@@ -12,7 +10,6 @@ public class TesteFTP {
 	private ArqEntrada entrada;
 	private FTP ftp;
 	private Scanner scan;
-	private ArqsFTP arqftp;
 
 	public TesteFTP() {
 		scan = new Scanner(System.in);
@@ -59,7 +56,7 @@ public class TesteFTP {
 
 	private void listar() {
 		System.out.println("[Listar Diretorio]");
-		System.out.println(ftp.listarNome(entrada.getDirRemoto()));
+		System.out.println(ftp.listarConteudo(ler()));
 	}
 
 	private void baixarArq() {
@@ -71,10 +68,15 @@ public class TesteFTP {
 		System.out.println("[Enviar Arquivo]");
 		ftp.enviarArquivo(entrada.getDirLocal(), ler());
 	}
-	
+
 	private void excluirArq() {
 		System.out.println("[Excluir Arquivo]");
 		ftp.deletarArquivo(entrada.getDirRemoto(), ler());
+	}
+
+	private void detalharArq() {
+		System.out.println("[Detalhar Arquivo]");
+		ftp.statusArquivo(entrada.getDirRemoto(), ler());
 	}
 
 	private void mostrarDataModArq() {
@@ -92,64 +94,56 @@ public class TesteFTP {
 		while (true) {
 			System.out.println("----------------------------------------");
 			System.out.println("Escolha um dos numeros das opcoes abaixo");
-			System.out.println("1 - Criar Pasta");
-			System.out.println("2 - Remover Pasta");
-			System.out.println("3 - Mudar Pasta");
-			System.out.println("4 - Mostrar Pasta");
-			System.out.println("5 - Listar Pasta");
-			System.out.println("6 - Baixar Arquivo");
-			System.out.println("7 - Enviar Arquivo");
-			System.out.println("8 - Excluir Arquivo");
-			System.out.println("9 - Mostrar Data de Modificacao");
+			System.out.println("10 - Criar Pasta");
+			System.out.println("11 - Remover Pasta");
+			System.out.println("12 - Mudar Pasta");
+			System.out.println("13 - Mostrar Pasta");
+			System.out.println("14 - Listar Pasta");
+			System.out.println("20 - Baixar Arquivo");
+			System.out.println("21 - Enviar Arquivo");
+			System.out.println("22 - Excluir Arquivo");
+			System.out.println("23 - Detalhar Arquivo");
+			System.out.println("24 - Data do Arquivo");
 			System.out.println("0 - Sair");
 			int i = lerInt();
 			switch (i) {
 			case 0:
 				System.out.println("Saindo...");
 				return;
-			case 1:
+			case 10:
 				criarPasta();
 				break;
-			case 2:
+			case 11:
 				deletarPasta();
 				break;
-			case 3:
+			case 12:
 				mudarPasta();
 				break;
-			case 4:
+			case 13:
 				mostrarPasta();
 				break;
-			case 5:
+			case 14:
 				listar();
 				break;
-			case 6:
+			case 20:
 				baixarArq();
 				break;
-			case 7:
+			case 21:
 				enviarArq();
 				break;
-			case 8:
+			case 22:
 				excluirArq();
 				break;
-			case 9:
+			case 23:
+				detalharArq();
+				break;
+			case 24:
 				mostrarDataModArq();
 				break;
 			default:
 				System.out.println("Escolha uma opcao valida");
 			}
 		}
-	}
-
-	public void varrerPasta(String pasta) {
-		List<String> lista = arqftp.getConteudo(pasta);
-		System.out.println("Listando o conteudo da pasta " + pasta);
-		for (int i = 0; i < lista.size(); i++) {
-			if (lista.get(i).startsWith("*"))
-				varrerPasta(pasta + lista.get(i).substring(1) + "/");
-			else
-				System.out.println(lista.get(i));
-		}
-		System.out.println("Fim da listagem da pasta " + pasta);
 	}
 
 	public static void main(String[] args) {

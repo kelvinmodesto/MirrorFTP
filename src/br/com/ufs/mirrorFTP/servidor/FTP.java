@@ -38,6 +38,7 @@ public class FTP implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println(resp);
 		return resp;
 	}
 
@@ -71,16 +72,17 @@ public class FTP implements Runnable {
 		}
 	}
 
-	private String enviarCmd(String command) {
+	private String enviarCmd(String comando) {
 		BufferedReader br;
 		String resp = null;
 		try {
-			osContr.write(command.getBytes());
+			osContr.write(comando.getBytes());
 			br = new BufferedReader(new InputStreamReader(isContr));
 			resp = br.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println(resp);
 		return resp;
 	}
 
@@ -129,9 +131,9 @@ public class FTP implements Runnable {
 		}
 	}
 
-	public String listar(String diretorio) {
+	private String listagem(String comando, String diretorio) {
 		entrarNoModoPASV();
-		enviarCmd("LIST " + diretorio + "\r\n");
+		enviarCmd(comando);
 		BufferedReader br;
 		String resp = "";
 		String line;
@@ -146,23 +148,17 @@ public class FTP implements Runnable {
 		enviarCmd();
 		return resp;
 	}
+	
+	public String listar(String diretorio) {
+		return listagem("LIST " + diretorio + "\r\n",diretorio);
+	}
 
 	public String listarNome(String diretorio) {
-		entrarNoModoPASV();
-		enviarCmd("NLST " + diretorio + "\r\n");
-		BufferedReader br;
-		String resp = "";
-		String line;
-		try {
-			br = new BufferedReader(new InputStreamReader(isDados));
-			while ((line = br.readLine()) != null) {
-				resp = resp + "\n" + line;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		enviarCmd();
-		return resp;
+		return listagem("NLST " + diretorio + "\r\n",diretorio);
+	}
+
+	public String listarConteudo(String diretorio) {
+		return listagem("MLSD " + diretorio + "\r\n",diretorio);
 	}
 
 	private void mudarTipo(String tipo) {
@@ -215,14 +211,17 @@ public class FTP implements Runnable {
 		}
 		enviarCmd();
 	}
-	
+
 	public void deletarArquivo(String diretorio, String arquivo) {
-		enviarCmd("DELE " + diretorio + "/"+ arquivo + "\r\n");
+		enviarCmd("DELE " + diretorio + "/" + arquivo + "\r\n");
+	}
+
+	public void statusArquivo(String diretorio, String arquivo) {
+		enviarCmd("STAT " + diretorio + "/" + arquivo + "\r\n");
 	}
 
 	public Date getDataModArq(String arquivo) {
-		String resp = enviarCmd("MDTM " + arquivo + "\r\n").replaceAll(
-				" ", "");
+		String resp = enviarCmd("MDTM " + arquivo + "\r\n").replaceAll(" ", "");
 		char[] aux = resp.toCharArray();
 		for (int i = 0; i < 3; i++) {
 			aux[i] = '0';
