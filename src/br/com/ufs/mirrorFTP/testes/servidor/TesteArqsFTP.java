@@ -18,14 +18,14 @@ public class TesteArqsFTP {
 	
 	public void varrerPasta(String pasta) {
 		List<String> lista = arqsFTP.getConteudo(pasta);
-		System.out.println("Listando o conteudo da pasta " + pasta);
+		System.out.println("Listando o conteudo de " + pasta);
 		for (int i = 0; i < lista.size(); i++) {
 			if (lista.get(i).startsWith("*"))
 				varrerPasta(pasta + lista.get(i).substring(1) + "/");
 			else
 				System.out.println(lista.get(i));
 		}
-		System.out.println("Fim da listagem da pasta " + pasta);
+		System.out.println("Fim da listagem de " + pasta);
 	}
 	
 	public static void main(String[] args) {

@@ -38,7 +38,7 @@ public class FTP implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(resp);
+		// System.out.println(resp);
 		return resp;
 	}
 
@@ -82,7 +82,7 @@ public class FTP implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(resp);
+		// System.out.println(resp);
 		return resp;
 	}
 
@@ -148,17 +148,17 @@ public class FTP implements Runnable {
 		enviarCmd();
 		return resp;
 	}
-	
+
 	public String listar(String diretorio) {
-		return listagem("LIST " + diretorio + "\r\n",diretorio);
+		return listagem("LIST " + diretorio + "\r\n", diretorio);
 	}
 
 	public String listarNome(String diretorio) {
-		return listagem("NLST " + diretorio + "\r\n",diretorio);
+		return listagem("NLST " + diretorio + "\r\n", diretorio);
 	}
 
 	public String listarConteudo(String diretorio) {
-		return listagem("MLSD " + diretorio + "\r\n",diretorio);
+		return listagem("MLSD " + diretorio + "\r\n", diretorio);
 	}
 
 	private void mudarTipo(String tipo) {
