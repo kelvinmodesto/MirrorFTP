@@ -23,7 +23,7 @@ public class ArqsFTP extends Arquivos {
 	}
 	//Incompleto, pode implementar esse método para recomeçar todo o processo
 	private void reiniciar(){
-		dormir();
+		dormir(entrada.getIntervalo());
 		iniciar();
 	}
 	
@@ -48,9 +48,9 @@ public class ArqsFTP extends Arquivos {
 		}
 		return conteudo;
 	}
-	public void dormir(){
+	public void dormir(int intervalo){
 		try {
-			Thread.sleep(entrada.getIntervalo());
+			Thread.sleep(intervalo);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
