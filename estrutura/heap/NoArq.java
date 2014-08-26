@@ -1,16 +1,15 @@
 package heap;
 
-import java.sql.Date;
 
 public class NoArq extends No {
 
 	private float tam = 0;
 	
-	public NoArq(String nome, Date data) {
+	public NoArq(String nome, long data) {
 		super(nome, data);		
 	}
 
-	public NoArq(String nome, Date data, float tam) {
+	public NoArq(String nome, long data, float tam) {
 		super(nome, data);
 		this.tam = tam;
 	}
@@ -21,6 +20,10 @@ public class NoArq extends No {
 
 	public void setTam(float tam) {
 		this.tam = tam;
+	}
+
+	public String toString() {
+		return super.toString() + " - " + tam + "]";
 	}
 
 }

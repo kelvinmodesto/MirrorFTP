@@ -1,16 +1,14 @@
 package heap;
 
-import java.sql.Date;
-
 public class NoDir extends No {
 	
 	private int qtd = 0;
 	
-	public NoDir(String nome, Date data) {
+	public NoDir(String nome, long data) {
 		super(nome, data);		
 	}
 	
-	public NoDir(String nome, Date data, int qtd) {
+	public NoDir(String nome, long data, int qtd) {
 		super(nome, data);
 		this.qtd = qtd;
 	}
@@ -23,4 +21,8 @@ public class NoDir extends No {
 		this.qtd = qtd;
 	}
 
+	public String toString() {
+		return super.toString() + " - " + qtd + "]";
+	}
+	
 }

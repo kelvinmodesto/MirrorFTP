@@ -4,17 +4,66 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Heap {
-	List<No> heap;
+	List<No> lista;
 
 	public Heap() {
-		heap = new ArrayList<No>();
+		lista = new ArrayList<No>();
 	}
 
-	public List<No> getHeap() {
-		return heap;
+	public int getTam() {
+		return lista.size();
 	}
 
-	public void setHeap(List<No> heap) {
-		this.heap = heap;
+	public No getNo(int index) {
+		return lista.get(index);
+	}
+
+	public void inserirNo(No no) {
+		lista.add(no);
+	}
+	
+	public void inserirNo(int ind,No no) {
+		lista.add(ind, no);
+	}
+
+	public void inserirDoHeap(Heap heap) {
+		for (int i = 0; i < heap.getTam(); i++) {
+			inserirNo(heap.getNo(i));
+		}
+	}
+
+	public String toString() {
+		String aux = "";
+		for (int i = 0; i < getTam(); i++) {
+			aux += getNo(i) + "\n";
+		}
+		return aux;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((lista == null) ? 0 : lista.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Heap other = (Heap) obj;
+		if (lista == null) {
+			if (other.lista != null)
+				return false;
+		} else if (getTam() != other.getTam())
+			return false;
+		else if (!lista.equals(other.lista))
+			return false;
+		return true;
 	}
 }
