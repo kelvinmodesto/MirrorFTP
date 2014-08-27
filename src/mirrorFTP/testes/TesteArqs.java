@@ -2,17 +2,21 @@ package mirrorFTP.testes;
 
 import java.util.List;
 
+import mirrorFTP.heap.Heap;
 import mirrorFTP.local.ArqEntrada;
 import mirrorFTP.local.ArqsLocais;
 
 public class TesteArqs {
 	private ArqEntrada entrada;
 	private ArqsLocais arq;
+	Heap heapLocal;
 
 	public TesteArqs() {
 		entrada = new ArqEntrada();
 		arq = new ArqsLocais();
-		varrerPasta(entrada.getDirLocal());
+		heapLocal = gerarHeap(entrada.getDirLocal());
+		imprimirHeap();
+		// varrerPasta(entrada.getDirLocal());
 	}
 
 	public void varrerPasta(String pasta) {
@@ -25,6 +29,20 @@ public class TesteArqs {
 				System.out.println(lista.get(i));
 		}
 		System.out.println("Fim da listagem da pasta " + pasta);
+	}
+
+	public Heap gerarHeap(String pasta) {
+		Heap aux = arq.construirHeapLocal(pasta);
+		for (int i = 0; i < aux.getTam(); i++) {
+			if (aux.getNo(i).getNome().startsWith("*"))
+				aux.inserirDoHeap(gerarHeap(pasta
+						+ aux.getNo(i).getNome().substring(1) + "/"));
+		}
+		return aux;
+	}
+
+	public void imprimirHeap() {
+		System.out.println(heapLocal);
 	}
 
 	public static void main(String[] args) {

@@ -31,6 +31,10 @@ public class Heap {
 			inserirNo(heap.getNo(i));
 		}
 	}
+	
+	public void limparHeap() {
+		lista.clear();
+	}
 
 	public String toString() {
 		String aux = "";
