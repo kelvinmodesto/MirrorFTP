@@ -1,4 +1,4 @@
-package heap;
+package mirrorFTP.heap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +21,8 @@ public class Heap {
 	public void inserirNo(No no) {
 		lista.add(no);
 	}
-	
-	public void inserirNo(int ind,No no) {
+
+	public void inserirNo(int ind, No no) {
 		lista.add(ind, no);
 	}
 
@@ -60,10 +60,14 @@ public class Heap {
 		if (lista == null) {
 			if (other.lista != null)
 				return false;
-		} else if (getTam() != other.getTam())
-			return false;
-		else if (!lista.equals(other.lista))
-			return false;
+		} else {
+			if (other.lista != null)
+				return false;
+			if (getTam() != other.getTam())
+				return false;
+			else if (!lista.equals(other.lista))
+				return false;
+		}
 		return true;
 	}
 }

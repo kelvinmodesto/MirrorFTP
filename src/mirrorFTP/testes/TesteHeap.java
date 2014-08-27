@@ -1,8 +1,8 @@
-package testes;
+package mirrorFTP.testes;
 
-import heap.Heap;
-import heap.NoArq;
-import heap.NoDir;
+import mirrorFTP.heap.Heap;
+import mirrorFTP.heap.NoArq;
+import mirrorFTP.heap.NoDir;
 
 public class TesteHeap {
 
@@ -15,17 +15,23 @@ public class TesteHeap {
 		iniciar();
 	}
 
+	public void iniciar() {
+		inserirRemoto();
+		inserirLocal();
+		comparar();
+	}
+
 	private void inserirRemoto() {
 		hRemoto.inserirNo(new NoDir("pasta0", 1482336800231L, 3));
 		hRemoto.inserirNo(new NoArq("arquivo0", 1221436800231L, 35.4F));
 		hRemoto.inserirNo(new NoArq("arquivo1", 1221436000231L, 21.5F));
-		//hRemoto.inserirNo(new NoArq("arquivo2", 1231436800231L, 341.3F));
+		hRemoto.inserirNo(new NoArq("arquivo2", 1231436800231L, 341.3F));
 	}
 
 	private void inserirLocal() {
-		//hLocal.inserirNo(new NoDir("pasta0", 1482336800231L, 3));
-		//hLocal.inserirNo(new NoArq("arquivo0", 1221436800231L, 35.4F));
-		//hLocal.inserirNo(new NoArq("arquivo1", 1221436000231L, 21.5F));
+		hLocal.inserirNo(new NoDir("pasta0", 1482336800231L, 3));
+		hLocal.inserirNo(new NoArq("arquivo0", 1221436800231L, 35.4F));
+		hLocal.inserirNo(new NoArq("arquivo1", 1221436000231L, 21.5F));
 		hLocal.inserirNo(new NoArq("arquivo2", 1231436800231L, 341.3F));
 	}
 
@@ -72,12 +78,6 @@ public class TesteHeap {
 		}
 		System.out.println("Sincronizado no dir Remoto");
 		return true;
-	}
-
-	public void iniciar() {
-		inserirRemoto();
-		inserirLocal();
-		comparar();
 	}
 
 	public static void main(String[] args) {
