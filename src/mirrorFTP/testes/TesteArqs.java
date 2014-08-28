@@ -1,38 +1,26 @@
 package mirrorFTP.testes;
 
-import java.util.List;
-
 import mirrorFTP.heap.Heap;
+import mirrorFTP.heap.NoDir;
 import mirrorFTP.local.ArqEntrada;
 import mirrorFTP.local.ArqsLocais;
 
 public class TesteArqs {
+	private ArqsLocais arqs;
 	private ArqEntrada entrada;
-	private ArqsLocais arq;
-	Heap heapLocal;
+	private Heap heapLocal;
 
 	public TesteArqs() {
 		entrada = new ArqEntrada();
-		arq = new ArqsLocais();
-		heapLocal = gerarHeap(entrada.getDirLocal());
+		arqs = new ArqsLocais();
+		heapLocal = new Heap();
+		heapLocal.inserirNo(new NoDir(entrada.getDirLocal(),0));
+		heapLocal.inserirDoHeap(gerarHeap(entrada.getDirLocal()));
 		imprimirHeap();
-		// varrerPasta(entrada.getDirLocal());
-	}
-
-	public void varrerPasta(String pasta) {
-		List<String> lista = arq.getConteudo(pasta);
-		System.out.println("Listando o conteudo da pasta " + pasta);
-		for (int i = 0; i < lista.size(); i++) {
-			if (lista.get(i).startsWith("*"))
-				varrerPasta(pasta + lista.get(i).substring(1) + "/");
-			else
-				System.out.println(lista.get(i));
-		}
-		System.out.println("Fim da listagem da pasta " + pasta);
 	}
 
 	public Heap gerarHeap(String pasta) {
-		Heap aux = arq.construirHeapLocal(pasta);
+		Heap aux = arqs.construirHeapLocal(pasta);
 		for (int i = 0; i < aux.getTam(); i++) {
 			if (aux.getNo(i).getNome().startsWith("*"))
 				aux.inserirDoHeap(gerarHeap(pasta
