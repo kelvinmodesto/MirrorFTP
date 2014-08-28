@@ -8,7 +8,7 @@ import mirrorFTP.local.ArqsLocais;
 public class TesteArqs {
 	private ArqsLocais arqs;
 	private ArqEntrada entrada;
-	static private Heap heapLocal;
+	private Heap heapLocal;
 
 	public TesteArqs() {
 		entrada = new ArqEntrada();
