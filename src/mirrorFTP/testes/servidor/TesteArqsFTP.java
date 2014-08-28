@@ -15,17 +15,21 @@ public class TesteArqsFTP {
 		entrada = new ArqEntrada();
 		arqsFTP = new ArqsFTP();
 		heapRemoto = new Heap();
-		heapRemoto.inserirNo(new NoDir(entrada.getDirRemoto(),0));
+		heapRemoto.inserirNo(new NoDir(entrada.getDirRemoto(), 0));
 		heapRemoto.inserirDoHeap(gerarHeap(entrada.getDirRemoto()));
 		imprimirHeap();
 	}
-
+	
+	//Nao seta a qtd das pastas internas
 	public Heap gerarHeap(String pasta) {
 		Heap aux = arqsFTP.construirHeapRemoto(pasta);
+		String[] partes = pasta.split("/");
+		NoDir no = (NoDir) heapRemoto.getNo(partes[partes.length-1]+"/");
+		if (no != null)
+			no.setQtd(aux.getTam());
 		for (int i = 0; i < aux.getTam(); i++) {
-			if (aux.getNo(i).getNome().startsWith("*"))
-				aux.inserirDoHeap(gerarHeap(pasta
-						+ aux.getNo(i).getNome().substring(1) + "/"));
+			if (aux.getNo(i).getNome().endsWith("/"))
+				aux.inserirDoHeap(gerarHeap(pasta + aux.getNo(i).getNome()));
 		}
 		return aux;
 	}

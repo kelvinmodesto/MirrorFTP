@@ -40,7 +40,7 @@ public class ArqsLocais extends Arquivos {
 		if (aux != null) {
 			NoDir no;
 			for (int i = 0; i < aux.length; i++) {
-				no = new NoDir("*" + aux[i].getName(), aux[i].lastModified());
+				no = new NoDir(aux[i].getName() + "/", aux[i].lastModified());
 				if (aux[i].listFiles().length > 0)
 					no.setQtd(aux[i].listFiles().length);
 				heap.inserirNo(no);

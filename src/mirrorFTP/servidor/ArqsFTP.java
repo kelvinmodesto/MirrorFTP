@@ -31,7 +31,7 @@ public class ArqsFTP extends Arquivos {
 				resultado[1] = aux[0].split("=")[1];
 				resultado[2] = aux[2].split("=")[1];
 			} else if (aux[2].split("=")[1].matches("dir")) {
-				resultado[0] = aux[7].replaceFirst(" ", "*");
+				resultado[0] = aux[7].substring(1) + "/";
 				resultado[1] = aux[0].split("=")[1];
 			}
 		return resultado;
@@ -52,10 +52,10 @@ public class ArqsFTP extends Arquivos {
 			NoArq no;
 			for (int i = 0; i < lista.length; i++) {
 				aux = getDadosDirArq(lista[i]);
-				if (aux[0] != "" && !aux[0].startsWith("*")){
-					no = new NoArq(aux[0],Long.parseLong(aux[1]));
+				if (aux[0] != "" && !aux[0].endsWith("/")) {
+					no = new NoArq(aux[0], Long.parseLong(aux[1]));
 					float tam;
-					if((tam = Float.parseFloat(aux[2])) > 0)
+					if ((tam = Float.parseFloat(aux[2])) > 0)
 						no.setTam(tam);
 					heap.inserirNo(no);
 				}
@@ -71,8 +71,8 @@ public class ArqsFTP extends Arquivos {
 			NoDir no;
 			for (int i = 0; i < lista.length; i++) {
 				aux = getDadosDirArq(lista[i]);
-				if (aux[0] != "" && aux[0].startsWith("*")) {
-					no = new NoDir(aux[0],Long.parseLong(aux[1]));
+				if (aux[0] != "" && aux[0].endsWith("/")) {
+					no = new NoDir(aux[0], Long.parseLong(aux[1]));
 					heap.inserirNo(no);
 				}
 

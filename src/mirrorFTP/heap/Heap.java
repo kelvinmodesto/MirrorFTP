@@ -17,6 +17,14 @@ public class Heap {
 	public No getNo(int index) {
 		return lista.get(index);
 	}
+	
+	public No getNo(String nome) {
+		for (int i = 0; i < getTam(); i++) {
+			if(getNo(i).getNome().equals(nome))
+				return getNo(i);
+		}
+		return null;
+	}
 
 	public void inserirNo(No no) {
 		lista.add(no);

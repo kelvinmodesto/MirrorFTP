@@ -1,8 +1,5 @@
 package mirrorFTP.heap;
 
-import java.util.Date;
-
-
 public abstract class No {
 	private String nome;
 	private long data;
@@ -29,7 +26,6 @@ public abstract class No {
 	}
 
 	public String toString() {
-		Date data = new Date(this.data);
 		return "[" + nome + " - " + data;
 	}
 
