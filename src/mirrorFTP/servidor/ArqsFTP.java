@@ -40,12 +40,12 @@ public class ArqsFTP extends Arquivos {
 	public Heap construirHeapRemoto(String diretorio) {
 		String[] lista = ftp.listarConteudo(diretorio).split("\n");
 		Heap heap = new Heap();
-		heap.inserirDoHeap(construirHeapRemotoArqs(lista));
-		heap.inserirDoHeap(construirHeapRemotoDirs(lista));
+		heap.inserirDoHeap(construirHeapRemotoArqs(diretorio, lista));
+		heap.inserirDoHeap(construirHeapRemotoDirs(diretorio, lista));
 		return heap;
 	}
 
-	private Heap construirHeapRemotoArqs(String[] lista) {
+	private Heap construirHeapRemotoArqs(String diretorio, String[] lista) {
 		Heap heap = new Heap();
 		if (lista != null) {
 			String[] aux;
@@ -53,7 +53,8 @@ public class ArqsFTP extends Arquivos {
 			for (int i = 0; i < lista.length; i++) {
 				aux = getDadosDirArq(lista[i]);
 				if (aux[0] != "" && !aux[0].endsWith("/")) {
-					no = new NoArq(aux[0], Long.parseLong(aux[1]));
+					no = new NoArq(aux[0], diretorio + aux[0],
+							Long.parseLong(aux[1]));
 					float tam;
 					if ((tam = Float.parseFloat(aux[2])) > 0)
 						no.setTam(tam);
@@ -64,7 +65,7 @@ public class ArqsFTP extends Arquivos {
 		return heap;
 	}
 
-	private Heap construirHeapRemotoDirs(String[] lista) {
+	private Heap construirHeapRemotoDirs(String diretorio, String[] lista) {
 		Heap heap = new Heap();
 		if (lista != null) {
 			String[] aux;
@@ -72,7 +73,8 @@ public class ArqsFTP extends Arquivos {
 			for (int i = 0; i < lista.length; i++) {
 				aux = getDadosDirArq(lista[i]);
 				if (aux[0] != "" && aux[0].endsWith("/")) {
-					no = new NoDir(aux[0], Long.parseLong(aux[1]));
+					no = new NoDir(aux[0], diretorio + aux[0],
+							Long.parseLong(aux[1]));
 					heap.inserirNo(no);
 				}
 

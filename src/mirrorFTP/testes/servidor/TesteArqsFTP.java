@@ -14,10 +14,14 @@ public class TesteArqsFTP {
 	public TesteArqsFTP() {
 		entrada = new ArqEntrada();
 		arqsFTP = new ArqsFTP();
-		heapRemoto = new Heap();
-		heapRemoto.inserirNo(new NoDir(entrada.getDirRemoto(), 0));
-		heapRemoto.inserirDoHeap(gerarHeap(entrada.getDirRemoto()));
+		heapRemoto = new Heap();	
 		imprimirHeap();
+	}
+	
+	public void iniciarHeap() {
+		NoDir no = new NoDir(entrada.getDirRemoto(), entrada.getDirRemoto(), 0);
+		heapRemoto.inserirNo(no);
+		heapRemoto.inserirDoHeap(gerarHeap(entrada.getDirRemoto()));
 	}
 
 	private Heap setDirQTD(Heap heap, String pasta, int qtd) {
@@ -46,6 +50,11 @@ public class TesteArqsFTP {
 		}
 		return aux;
 	}
+	
+//	public int insContDir(String caminho) {
+//		
+//		return;
+//	}
 
 	public void imprimirHeap() {
 		System.out.println(heapRemoto);

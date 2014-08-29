@@ -1,15 +1,15 @@
 package mirrorFTP.heap;
 
 public class NoDir extends No {
-	
+
 	private int qtd = 0;
-	
-	public NoDir(String nome, long data) {
-		super(nome, data);		
+
+	public NoDir(String nome, String caminho, long data) {
+		super(nome, caminho, data);
 	}
-	
-	public NoDir(String nome, long data, int qtd) {
-		super(nome, data);
+
+	public NoDir(String nome, String caminho, long data, int qtd) {
+		super(nome, caminho, data);
 		this.qtd = qtd;
 	}
 
@@ -46,5 +46,5 @@ public class NoDir extends No {
 			return false;
 		return true;
 	}
-	
+
 }

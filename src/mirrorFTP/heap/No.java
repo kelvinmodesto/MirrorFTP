@@ -2,10 +2,12 @@ package mirrorFTP.heap;
 
 public abstract class No {
 	private String nome;
+	private String caminho;
 	private long data;
 
-	public No(String nome, long data) {
+	public No(String nome, String caminho, long data) {
 		this.nome = nome;
+		this.caminho = caminho;
 		this.data = data;
 	}
 
@@ -15,6 +17,14 @@ public abstract class No {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getCaminho() {
+		return caminho;
+	}
+
+	public void setCaminho(String caminho) {
+		this.caminho = caminho;
 	}
 
 	public long getData() {

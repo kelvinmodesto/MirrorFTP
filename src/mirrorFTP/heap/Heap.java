@@ -73,12 +73,14 @@ public class Heap {
 			if (other.lista != null)
 				return false;
 		} else {
-			if (other.lista != null)
+			if (other.lista == null)
 				return false;
 			if (getTam() != other.getTam())
 				return false;
-			else if (!lista.equals(other.lista))
-				return false;
+			else
+				for (int i = 0; i < getTam(); i++) {
+					getNo(i).equals(other.getNo(i));
+				}
 		}
 		return true;
 	}

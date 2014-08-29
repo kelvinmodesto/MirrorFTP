@@ -1,16 +1,15 @@
 package mirrorFTP.heap;
 
-
 public class NoArq extends No {
 
 	private float tam = 0;
-	
-	public NoArq(String nome, long data) {
-		super(nome, data);		
+
+	public NoArq(String nome, String caminho, long data) {
+		super(nome, caminho, data);
 	}
 
-	public NoArq(String nome, long data, float tam) {
-		super(nome, data);
+	public NoArq(String nome, String caminho, long data, float tam) {
+		super(nome, caminho, data);
 		this.tam = tam;
 	}
 
@@ -35,10 +34,10 @@ public class NoArq extends No {
 	}
 
 	@Override
-	public boolean equals(Object obj) {		
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if(!super.equals(obj))
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;

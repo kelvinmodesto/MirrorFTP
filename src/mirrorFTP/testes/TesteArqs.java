@@ -14,16 +14,17 @@ public class TesteArqs {
 		entrada = new ArqEntrada();
 		arqs = new ArqsLocais();
 		heapLocal = new Heap();
-		heapLocal.inserirNo(new NoDir(entrada.getDirLocal().substring(17), 0));
+		heapLocal.inserirNo(new NoDir(entrada.getDirLocal(), entrada
+				.getDirLocal().substring(17), 0));
 		heapLocal.inserirDoHeap(gerarHeap(entrada.getDirLocal()));
 		imprimirHeap();
 	}
-	
+
 	public Heap gerarHeap(String pasta) {
 		Heap aux = arqs.construirHeapLocal(pasta);
 		String[] partes = pasta.split("/");
 		NoDir no = (NoDir) heapLocal.getNo(partes[partes.length - 1] + "/");
-		if(no!=null)
+		if (no != null)
 			no.setQtd(aux.getTam());
 		for (int i = 0; i < aux.getTam(); i++) {
 			if (aux.getNo(i).getNome().endsWith("/"))

@@ -14,19 +14,20 @@ public class ArqsLocais extends Arquivos {
 	public Heap construirHeapLocal(String diretorio) {
 		arq = new File(diretorio);
 		Heap heap = new Heap();
-		heap.inserirDoHeap(construirHeapLocalArqs(arq
-				.listFiles(new filtroArq())));
-		heap.inserirDoHeap(construirHeapLocalDirs(arq
-				.listFiles(new filtroDir())));
+		heap.inserirDoHeap(construirHeapLocalArqs(diretorio,
+				arq.listFiles(new filtroArq())));
+		heap.inserirDoHeap(construirHeapLocalDirs(diretorio,
+				arq.listFiles(new filtroDir())));
 		return heap;
 	}
 
-	private Heap construirHeapLocalArqs(File[] aux) {
+	private Heap construirHeapLocalArqs(String diretorio, File[] aux) {
 		Heap heap = new Heap();
 		if (aux != null) {
 			NoArq no;
 			for (int i = 0; i < aux.length; i++) {
-				no = new NoArq(aux[i].getName(), aux[i].lastModified());
+				no = new NoArq(aux[i].getName(), diretorio + aux[i].getName(),
+						aux[i].lastModified());
 				if (aux[i].length() > 0)
 					no.setTam(aux[i].length());
 				heap.inserirNo(no);
@@ -35,12 +36,13 @@ public class ArqsLocais extends Arquivos {
 		return heap;
 	}
 
-	private Heap construirHeapLocalDirs(File[] aux) {
+	private Heap construirHeapLocalDirs(String diretorio, File[] aux) {
 		Heap heap = new Heap();
 		if (aux != null) {
 			NoDir no;
 			for (int i = 0; i < aux.length; i++) {
-				no = new NoDir(aux[i].getName() + "/", aux[i].lastModified());
+				no = new NoDir(aux[i].getName() + "/", diretorio + aux[i].getName(),
+						aux[i].lastModified());
 				if (aux[i].listFiles().length > 0)
 					no.setQtd(aux[i].listFiles().length);
 				heap.inserirNo(no);
