@@ -1,7 +1,7 @@
 package mirrorFTP.testes;
 
+import mirrorFTP.base.No;
 import mirrorFTP.heap.Heap;
-import mirrorFTP.heap.No;
 import mirrorFTP.heap.NoDir;
 import mirrorFTP.local.ArqEntrada;
 import mirrorFTP.local.ArqsLocais;

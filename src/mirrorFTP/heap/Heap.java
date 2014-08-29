@@ -3,6 +3,8 @@ package mirrorFTP.heap;
 import java.util.ArrayList;
 import java.util.List;
 
+import mirrorFTP.base.No;
+
 public class Heap {
 	List<No> lista;
 

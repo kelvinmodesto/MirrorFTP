@@ -1,5 +1,7 @@
 package mirrorFTP.heap;
 
+import mirrorFTP.base.No;
+
 public class NoArq extends No {
 
 	private float tam = 0;

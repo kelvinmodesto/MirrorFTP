@@ -1,6 +1,6 @@
 package mirrorFTP.servidor;
 
-import mirrorFTP.Arquivos;
+import mirrorFTP.base.Arquivos;
 import mirrorFTP.heap.Heap;
 import mirrorFTP.heap.NoArq;
 import mirrorFTP.heap.NoDir;

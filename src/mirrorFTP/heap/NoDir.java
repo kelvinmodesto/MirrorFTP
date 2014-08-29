@@ -1,5 +1,7 @@
 package mirrorFTP.heap;
 
+import mirrorFTP.base.No;
+
 public class NoDir extends No {
 
 	private int qtd = 0;

@@ -3,7 +3,7 @@ package mirrorFTP.local;
 import java.io.File;
 import java.io.FileFilter;
 
-import mirrorFTP.Arquivos;
+import mirrorFTP.base.Arquivos;
 import mirrorFTP.heap.Heap;
 import mirrorFTP.heap.NoArq;
 import mirrorFTP.heap.NoDir;

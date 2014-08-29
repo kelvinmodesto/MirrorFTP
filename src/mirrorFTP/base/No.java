@@ -1,4 +1,4 @@
-package mirrorFTP.heap;
+package mirrorFTP.base;
 
 public abstract class No {
 	private String nome;
