@@ -10,18 +10,27 @@ import mirrorFTP.heap.NoDir;
 
 public class ArqsLocais extends Arquivos {
 	private File arq;
+	private Heap heap;
 
-	public Heap construirHeapLocal(String diretorio) {
-		arq = new File(diretorio);
-		Heap heap = new Heap();
-		heap.inserirDoHeap(construirHeapLocalArqs(diretorio,
-				arq.listFiles(new filtroArq())));
-		heap.inserirDoHeap(construirHeapLocalDirs(diretorio,
-				arq.listFiles(new filtroDir())));
+	public ArqsLocais() {
+		heap = new Heap();
+	}
+
+	public Heap getHeap() {
 		return heap;
 	}
 
-	private Heap construirHeapLocalArqs(String diretorio, File[] aux) {
+	public int construirHeap(String diretorio) {
+		arq = new File(diretorio);
+		heap.limparHeap();
+		heap.inserirDoHeap(construirHeapArqs(diretorio,
+				arq.listFiles(new filtroArq())));
+		heap.inserirDoHeap(construirHeapDirs(diretorio,
+				arq.listFiles(new filtroDir())));
+		return heap.getTam();
+	}
+
+	private Heap construirHeapArqs(String diretorio, File[] aux) {
 		Heap heap = new Heap();
 		if (aux != null) {
 			NoArq no;
@@ -36,15 +45,13 @@ public class ArqsLocais extends Arquivos {
 		return heap;
 	}
 
-	private Heap construirHeapLocalDirs(String diretorio, File[] aux) {
+	private Heap construirHeapDirs(String diretorio, File[] aux) {
 		Heap heap = new Heap();
 		if (aux != null) {
 			NoDir no;
 			for (int i = 0; i < aux.length; i++) {
-				no = new NoDir(aux[i].getName() + "/", diretorio + aux[i].getName(),
-						aux[i].lastModified());
-				if (aux[i].listFiles().length > 0)
-					no.setQtd(aux[i].listFiles().length);
+				no = new NoDir(aux[i].getName() + "/", diretorio
+						+ aux[i].getName() + "/", aux[i].lastModified());
 				heap.inserirNo(no);
 			}
 		}

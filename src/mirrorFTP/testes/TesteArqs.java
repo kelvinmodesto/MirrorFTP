@@ -1,36 +1,45 @@
 package mirrorFTP.testes;
 
 import mirrorFTP.heap.Heap;
+import mirrorFTP.heap.No;
 import mirrorFTP.heap.NoDir;
 import mirrorFTP.local.ArqEntrada;
 import mirrorFTP.local.ArqsLocais;
 
 public class TesteArqs {
-	private ArqsLocais arqs;
+	private ArqsLocais arqsLocal;
 	private ArqEntrada entrada;
-	private Heap heapLocal;
+	private static Heap heapLocal;
 
 	public TesteArqs() {
 		entrada = new ArqEntrada();
-		arqs = new ArqsLocais();
+		arqsLocal = new ArqsLocais();
 		heapLocal = new Heap();
-		heapLocal.inserirNo(new NoDir(entrada.getDirLocal(), entrada
-				.getDirLocal().substring(17), 0));
-		heapLocal.inserirDoHeap(gerarHeap(entrada.getDirLocal()));
+		iniciarHeap();
+		System.out.println();
 		imprimirHeap();
 	}
 
-	public Heap gerarHeap(String pasta) {
-		Heap aux = arqs.construirHeapLocal(pasta);
-		String[] partes = pasta.split("/");
-		NoDir no = (NoDir) heapLocal.getNo(partes[partes.length - 1] + "/");
-		if (no != null)
-			no.setQtd(aux.getTam());
-		for (int i = 0; i < aux.getTam(); i++) {
-			if (aux.getNo(i).getNome().endsWith("/"))
-				aux.inserirDoHeap(gerarHeap(pasta + aux.getNo(i).getNome()));
+	private void iniciarHeap() {
+		String nome = entrada.getDirLocal().substring(17);
+		NoDir no = new NoDir(nome, entrada.getDirLocal(), 0);
+		heapLocal.inserirNo(no);
+		no = (NoDir) heapLocal.getNo(0);
+		no.setQtd(insContDir(entrada.getDirLocal()));
+	}
+
+	private int insContDir(String diretorio) {
+		int tamAnt = heapLocal.getTam();
+		int tamIns = arqsLocal.construirHeap(diretorio);
+		heapLocal.inserirDoHeap(arqsLocal.getHeap());
+		for (int i = tamAnt; i < tamAnt+tamIns; i++) {
+			No no = heapLocal.getNo(i);
+			if (no.getNome().endsWith("/")) {
+				int qtd = insContDir(diretorio + no.getNome());
+				((NoDir) no).setQtd(qtd);
+			}
 		}
-		return aux;
+		return tamIns;
 	}
 
 	public void imprimirHeap() {

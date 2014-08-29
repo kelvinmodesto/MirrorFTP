@@ -22,15 +22,15 @@ public class TesteArqsFTP {
 	private void iniciarHeap() {
 		NoDir no = new NoDir(entrada.getDirRemoto(), entrada.getDirRemoto(), 0);
 		heapRemoto.inserirNo(no);
-		((NoDir) heapRemoto.getNo(0))
-				.setQtd(insContDir(entrada.getDirRemoto()));
+		no = ((NoDir) heapRemoto.getNo(0));
+		no.setQtd(insContDir(entrada.getDirRemoto()));
 	}
 
 	private int insContDir(String diretorio) {
 		int tamAnt = heapRemoto.getTam();
 		int tamIns = arqsFTP.construirHeap(diretorio);
 		heapRemoto.inserirDoHeap(arqsFTP.getHeap());
-		for (int i = tamAnt; i < heapRemoto.getTam(); i++) {
+		for (int i = tamAnt; i < tamAnt+tamIns; i++) {
 			if (heapRemoto.getNo(i).getNome().endsWith("/")) {
 				((NoDir) heapRemoto.getNo(i)).setQtd(insContDir(diretorio
 						+ heapRemoto.getNo(i).getNome()));
