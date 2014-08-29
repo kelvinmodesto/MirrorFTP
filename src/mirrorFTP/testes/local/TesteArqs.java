@@ -1,4 +1,4 @@
-package mirrorFTP.testes;
+package mirrorFTP.testes.local;
 
 import mirrorFTP.base.No;
 import mirrorFTP.heap.Heap;

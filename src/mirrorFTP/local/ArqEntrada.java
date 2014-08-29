@@ -11,11 +11,12 @@ import java.io.InputStreamReader;
 public class ArqEntrada {
 	private String host, usuario, senha, dirLocal, dirRemoto;
 	private int porta, intervalo;
-	
+
 	public ArqEntrada() {
 		this.read();
 	}
-	void read() {
+
+	private void read() {
 		File f = new File("entradas.txt");
 		InputStream is;
 		BufferedReader br;
@@ -56,6 +57,7 @@ public class ArqEntrada {
 	public String getDirRemoto() {
 		return dirRemoto;
 	}
+
 	public int getPorta() {
 		return porta;
 	}

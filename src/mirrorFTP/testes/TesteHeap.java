@@ -6,39 +6,39 @@ import mirrorFTP.heap.NoDir;
 
 public class TesteHeap {
 
-	private Heap hRemoto;
-	private Heap hLocal;
+	protected Heap heapRemoto;
+	protected Heap heapLocal;
 
 	public TesteHeap() {
-		hRemoto = new Heap();
-		hLocal = new Heap();
+		heapRemoto = new Heap();
+		heapLocal = new Heap();
 		iniciar();
 	}
 
-	public void iniciar() {
+	protected void iniciar() {
 		inserirRemoto();
 		inserirLocal();
 		comparar();
 	}
 
-	private void inserirRemoto() {
-		hRemoto.inserirNo(new NoDir("/", "/", 1482336800231L, 3));
-		hRemoto.inserirNo(new NoDir("pasta0/", "/pasta0/", 1482336800231L, 3));
-		hRemoto.inserirNo(new NoArq("arquivo0/", "/pasta0/arquivo0/",1221436800231L, 35.4F));
-		hRemoto.inserirNo(new NoArq("arquivo1/","/pasta0/arquivo1/", 1221436000231L, 21.5F));
-		hRemoto.inserirNo(new NoArq("arquivo2/", "/pasta0/arquivo2/",1231436800231L, 341.3F));
+	protected void inserirRemoto() {
+		heapRemoto.inserirNo(new NoDir("/", "/", 1482336800231L, 3));
+		heapRemoto.inserirNo(new NoDir("pasta0/", "/pasta0/", 1482336800231L, 3));
+		heapRemoto.inserirNo(new NoArq("arquivo0/", "/pasta0/arquivo0/",1221436800231L, 35.4F));
+		heapRemoto.inserirNo(new NoArq("arquivo1/","/pasta0/arquivo1/", 1221436000231L, 21.5F));
+		heapRemoto.inserirNo(new NoArq("arquivo2/", "/pasta0/arquivo2/",1231436800231L, 341.3F));
 	}
 
-	private void inserirLocal() {
-		hLocal.inserirNo(new NoDir("dirLocal/", "D:/dirLocal/", 1482336800231L, 3));
-		hLocal.inserirNo(new NoDir("pasta0/", "D:/dirLocal/pasta0/", 1482336800231L, 3));
-		hLocal.inserirNo(new NoArq("arquivo0/", "D:/dirLocal/arquivo0/", 1221436800231L, 35.4F));
-		hLocal.inserirNo(new NoArq("arquivo1/", "D:/dirLocal/arquivo1/", 1221436000231L, 21.5F));
-		hLocal.inserirNo(new NoArq("arquivo2/", "D:/dirLocal/arquivo2/", 1231436800231L, 341.3F));
+	protected void inserirLocal() {
+		heapLocal.inserirNo(new NoDir("dirLocal/", "D:/dirLocal/", 1482336800231L, 3));
+		heapLocal.inserirNo(new NoDir("pasta0/", "D:/dirLocal/pasta0/", 1482336800231L, 3));
+		heapLocal.inserirNo(new NoArq("arquivo0/", "D:/dirLocal/arquivo0/", 1221436800231L, 35.4F));
+		heapLocal.inserirNo(new NoArq("arquivo1/", "D:/dirLocal/arquivo1/", 1221436000231L, 21.5F));
+		heapLocal.inserirNo(new NoArq("arquivo2/", "D:/dirLocal/arquivo2/", 1231436800231L, 341.3F));
 	}
 
 	private void comparar() {
-		if (hRemoto.equals(hLocal))
+		if (heapRemoto.equals(heapLocal))
 			System.out.println("Sincronizado");
 		else {
 			while (!compararRemoto())
@@ -49,16 +49,16 @@ public class TesteHeap {
 	}
 
 	private boolean compararRemoto() {
-		for (int i = 1; i < hRemoto.getTam(); i++) {
-			if (!(i < hLocal.getTam())) {
-				System.out.println("Não achou " + hRemoto.getNo(i)
+		for (int i = 1; i < heapRemoto.getTam(); i++) {
+			if (!(i < heapLocal.getTam())) {
+				System.out.println("Não achou " + heapRemoto.getNo(i)
 						+ " no dir Local");
-				hLocal.inserirNo(i, hRemoto.getNo(i));
+				heapLocal.inserirNo(i, heapRemoto.getNo(i));
 				return false;
-			} else if (!hRemoto.getNo(i).equals(hLocal.getNo(i))) {
-				System.out.println("Não achou " + hRemoto.getNo(i)
+			} else if (!heapRemoto.getNo(i).equals(heapLocal.getNo(i))) {
+				System.out.println("Não achou " + heapRemoto.getNo(i)
 						+ " no dir Local");
-				hLocal.inserirNo(i, hRemoto.getNo(i));
+				heapLocal.inserirNo(i, heapRemoto.getNo(i));
 				return false;
 			}
 		}
@@ -67,16 +67,16 @@ public class TesteHeap {
 	}
 
 	private boolean compararLocal() {
-		for (int i = 1; i < hLocal.getTam(); i++) {
-			if (!(i < hRemoto.getTam())) {
-				System.out.println("Não achou " + hLocal.getNo(i)
+		for (int i = 1; i < heapLocal.getTam(); i++) {
+			if (!(i < heapRemoto.getTam())) {
+				System.out.println("Não achou " + heapLocal.getNo(i)
 						+ " no dir Remoto");
-				hRemoto.inserirNo(i, hLocal.getNo(i));
+				heapRemoto.inserirNo(i, heapLocal.getNo(i));
 				return false;
-			} else if (!hLocal.getNo(i).equals(hRemoto.getNo(i))) {
-				System.out.println("Não achou " + hLocal.getNo(i)
+			} else if (!heapLocal.getNo(i).equals(heapRemoto.getNo(i))) {
+				System.out.println("Não achou " + heapLocal.getNo(i)
 						+ " no dir Remoto");
-				hRemoto.inserirNo(i, hLocal.getNo(i));
+				heapRemoto.inserirNo(i, heapLocal.getNo(i));
 				return false;
 			}
 		}
