@@ -36,7 +36,7 @@ public abstract class No {
 	}
 
 	public String toString() {
-		return "[" + nome + " - " + data;
+		return "[" + nome + " - " + caminho + " - " + data;
 	}
 
 	@Override

@@ -14,49 +14,32 @@ public class TesteArqsFTP {
 	public TesteArqsFTP() {
 		entrada = new ArqEntrada();
 		arqsFTP = new ArqsFTP();
-		heapRemoto = new Heap();	
+		heapRemoto = new Heap();
+		iniciarHeap();
 		imprimirHeap();
 	}
-	
-	public void iniciarHeap() {
+
+	private void iniciarHeap() {
 		NoDir no = new NoDir(entrada.getDirRemoto(), entrada.getDirRemoto(), 0);
 		heapRemoto.inserirNo(no);
-		heapRemoto.inserirDoHeap(gerarHeap(entrada.getDirRemoto()));
+		((NoDir) heapRemoto.getNo(0))
+				.setQtd(insContDir(entrada.getDirRemoto()));
 	}
 
-	private Heap setDirQTD(Heap heap, String pasta, int qtd) {
-		String[] partes = pasta.split("/");
-		NoDir no;
-		if (partes.length > 0)
-			no = (NoDir) heap.getNo(partes[partes.length - 1] + "/");
-		else
-			no = (NoDir) heap.getNo(pasta);
-		if (no != null)
-			no.setQtd(qtd);
-		return heap;
-	}
-
-	// Nao seta a qtd das pastas internas
-	public Heap gerarHeap(String pasta) {
-		Heap aux = arqsFTP.construirHeapRemoto(pasta), aux0 = null;
-		if (pasta.equals(entrada.getDirRemoto()))
-			heapRemoto = setDirQTD(heapRemoto, pasta, aux.getTam());
-		for (int i = 0; i < aux.getTam(); i++) {
-			if (aux.getNo(i).getNome().endsWith("/")) {
-				aux0 = gerarHeap(pasta + aux.getNo(i).getNome());
-				aux0 = setDirQTD(aux0, aux.getNo(i).getNome(), aux0.getTam());
-				aux.inserirDoHeap(aux0);
+	private int insContDir(String diretorio) {
+		int tamAnt = heapRemoto.getTam();
+		int tamIns = arqsFTP.construirHeap(diretorio);
+		heapRemoto.inserirDoHeap(arqsFTP.getHeap());
+		for (int i = tamAnt; i < heapRemoto.getTam(); i++) {
+			if (heapRemoto.getNo(i).getNome().endsWith("/")) {
+				((NoDir) heapRemoto.getNo(i)).setQtd(insContDir(diretorio
+						+ heapRemoto.getNo(i).getNome()));
 			}
 		}
-		return aux;
+		return tamIns;
 	}
-	
-//	public int insContDir(String caminho) {
-//		
-//		return;
-//	}
 
-	public void imprimirHeap() {
+	private void imprimirHeap() {
 		System.out.println(heapRemoto);
 	}
 

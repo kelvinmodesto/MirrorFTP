@@ -7,45 +7,29 @@ import mirrorFTP.heap.NoDir;
 
 public class ArqsFTP extends Arquivos {
 	private FTP ftp;
+	private Heap heap;
 
 	public ArqsFTP() {
 		ftp = new FTP();
-		iniciar();
+		heap = new Heap();
 	}
-
-	private void iniciar() {
-		ftp.conectar();
-		ftp.logar();
-	}
-
-	protected void finalize() {
-		ftp.deslogar();
-	}
-
-	private String[] getDadosDirArq(String line) {
-		String aux[] = line.split(";");
-		String resultado[] = { "", "", "" };
-		if (aux.length > 1)
-			if (aux[2].startsWith("size")) {
-				resultado[0] = aux[8].substring(1);
-				resultado[1] = aux[0].split("=")[1];
-				resultado[2] = aux[2].split("=")[1];
-			} else if (aux[2].split("=")[1].matches("dir")) {
-				resultado[0] = aux[7].substring(1) + "/";
-				resultado[1] = aux[0].split("=")[1];
-			}
-		return resultado;
-	}
-
-	public Heap construirHeapRemoto(String diretorio) {
-		String[] lista = ftp.listarConteudo(diretorio).split("\n");
-		Heap heap = new Heap();
-		heap.inserirDoHeap(construirHeapRemotoArqs(diretorio, lista));
-		heap.inserirDoHeap(construirHeapRemotoDirs(diretorio, lista));
+		
+	public Heap getHeap() {
 		return heap;
 	}
+	
+	public int construirHeap(String diretorio) {
+		ftp.conectar();
+		ftp.logar();
+		String[] lista = ftp.listarConteudo(diretorio).split("\n");
+		heap.limparHeap();
+		heap.inserirDoHeap(construirHeapArqs(diretorio, lista));
+		heap.inserirDoHeap(construirHeapDirs(diretorio, lista));
+		ftp.deslogar();
+		return heap.getTam();
+	}
 
-	private Heap construirHeapRemotoArqs(String diretorio, String[] lista) {
+	private Heap construirHeapArqs(String diretorio, String[] lista) {
 		Heap heap = new Heap();
 		if (lista != null) {
 			String[] aux;
@@ -65,7 +49,7 @@ public class ArqsFTP extends Arquivos {
 		return heap;
 	}
 
-	private Heap construirHeapRemotoDirs(String diretorio, String[] lista) {
+	private Heap construirHeapDirs(String diretorio, String[] lista) {
 		Heap heap = new Heap();
 		if (lista != null) {
 			String[] aux;
@@ -81,5 +65,20 @@ public class ArqsFTP extends Arquivos {
 			}
 		}
 		return heap;
+	}
+
+	private String[] getDadosDirArq(String line) {
+		String aux[] = line.split(";");
+		String resultado[] = { "", "", "" };
+		if (aux.length > 1)
+			if (aux[2].startsWith("size")) {
+				resultado[0] = aux[8].substring(1);
+				resultado[1] = aux[0].split("=")[1];
+				resultado[2] = aux[2].split("=")[1];
+			} else if (aux[2].split("=")[1].matches("dir")) {
+				resultado[0] = aux[7].substring(1) + "/";
+				resultado[1] = aux[0].split("=")[1];
+			}
+		return resultado;
 	}
 }
