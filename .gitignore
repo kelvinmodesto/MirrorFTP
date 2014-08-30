@@ -1,6 +1,8 @@
 /.classpath
 /.project
 /entradas.txt
+/local.txt
+/servidor.txt
 /.settings
 /bin
 /dirLocal

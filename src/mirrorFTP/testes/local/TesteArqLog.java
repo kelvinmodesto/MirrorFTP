@@ -23,8 +23,6 @@ public class TesteArqLog extends TesteHeap {
 			arqLog.escreverHeap(true, heapLocal);
 			arqLog.escreverHeap(false, heapRemoto);
 		}
-		else
-			System.out.println("Nulo");
 	}
 
 	public static void main(String[] args) {

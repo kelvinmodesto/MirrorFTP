@@ -22,7 +22,18 @@ public class ArqLog {
 
 	public ArqLog() {
 		local = new File("local.txt");
+		gerarArquivo(local);
 		servidor = new File("servidor.txt");
+		gerarArquivo(servidor);
+	}
+	
+	private void gerarArquivo(File arq) {
+		if(!arq.exists())
+			try {
+				arq.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}		
 	}
 
 	public Heap lerHeap(boolean isLocal) {
@@ -62,7 +73,6 @@ public class ArqLog {
 	public void escreverHeap(boolean isLocal, Heap heap) {
 		OutputStream os;
 		BufferedWriter bw;
-
 		try {
 			if (isLocal)
 				os = new FileOutputStream(local);
@@ -70,7 +80,7 @@ public class ArqLog {
 				os = new FileOutputStream(servidor);
 			bw = new BufferedWriter(new OutputStreamWriter(os));
 			for (int i = 0; i < heap.getTam(); i++) {
-				bw.write(heap.getNo(i).toString());
+				bw.write(heap.getNo(i)+"\n");
 			}
 			bw.close();
 		} catch (IOException e) {
