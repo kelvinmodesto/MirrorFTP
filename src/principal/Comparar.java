@@ -79,7 +79,7 @@ public class Comparar {
 			acao.criarDirLocal(diretorio);
 		else {
 			diretorio = diretorio.replaceFirst(no.getNome(), "");
-			acao.baixarArq(diretorio, no.getNome());
+			acao.baixarArq(diretorio, no.getNome(),no.getData());
 		}
 		return no;
 	}
@@ -111,7 +111,7 @@ public class Comparar {
 			acao.criarDirRemoto(diretorio);
 		else {
 			diretorio = diretorio.replaceFirst(no.getNome(), "");
-			acao.baixarArq(diretorio, no.getNome());
+			acao.baixarArq(diretorio, no.getNome(), no.getData());
 		}
 		return no;
 	}

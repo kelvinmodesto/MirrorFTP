@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Date;
 import java.util.StringTokenizer;
 
 import local.ArqEntrada;
@@ -203,14 +202,10 @@ public class FTP {
 		enviarCmd("STAT " + diretorio + "/" + arquivo + "\r\n");
 	}
 
-	public Date getDataModArq(String arquivo) {
+	public long getDataModArq(String arquivo) {
 		String resp = enviarCmd("MDTM " + arquivo + "\r\n").replaceAll(" ", "");
-		char[] aux = resp.toCharArray();
-		for (int i = 0; i < 3; i++) {
-			aux[i] = '0';
-		}
-		resp = new String(aux);
-		return new Date(Long.parseLong(resp));
+		return Long.parseLong(resp.substring(3));
 	}
+	
 
 }
