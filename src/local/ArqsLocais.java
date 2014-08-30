@@ -6,6 +6,8 @@ import heap.NoDir;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import base.Arquivos;
 
@@ -25,14 +27,20 @@ public class ArqsLocais extends Arquivos {
 				arq.listFiles(new filtroDir())));
 		return heap.getTam();
 	}
-
+	
+	private long adaptarData(long dataMod) {
+		Date data = new Date(dataMod);
+		String dataForm = new SimpleDateFormat("yyyyMMddHHmmss").format(data);
+		return Long.parseLong(dataForm);
+	}
+	
 	private Heap construirHeapArqs(String diretorio, File[] aux) {
 		Heap heap = new Heap();
 		if (aux != null) {
 			NoArq no;
 			for (int i = 0; i < aux.length; i++) {
 				no = new NoArq(aux[i].getName(), diretorio + aux[i].getName(),
-						aux[i].lastModified());
+						adaptarData(aux[i].lastModified()));
 				if (aux[i].length() > 0)
 					no.setTam(aux[i].length());
 				heap.inserirNo(no);
@@ -47,7 +55,7 @@ public class ArqsLocais extends Arquivos {
 			NoDir no;
 			for (int i = 0; i < aux.length; i++) {
 				no = new NoDir(aux[i].getName() + "/", diretorio
-						+ aux[i].getName() + "/", aux[i].lastModified());
+						+ aux[i].getName() + "/", adaptarData(aux[i].lastModified()));
 				heap.inserirNo(no);
 			}
 		}
