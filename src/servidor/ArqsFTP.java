@@ -7,15 +7,10 @@ import base.Arquivos;
 
 public class ArqsFTP extends Arquivos {
 	private FTP ftp;
-	private Heap heap;
 
 	public ArqsFTP() {
+		super();
 		ftp = new FTP();
-		heap = new Heap();
-	}
-		
-	public Heap getHeap() {
-		return heap;
 	}
 	
 	public int construirHeap(String diretorio) {

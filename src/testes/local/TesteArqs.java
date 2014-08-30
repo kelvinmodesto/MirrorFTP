@@ -16,7 +16,6 @@ public class TesteArqs {
 		arqsLocal = new ArqsLocais();
 		heapLocal = new Heap();
 		iniciarHeap();
-		System.out.println();
 		imprimirHeap();
 	}
 

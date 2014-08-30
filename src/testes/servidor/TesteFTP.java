@@ -15,17 +15,19 @@ public class TesteFTP {
 		scan = new Scanner(System.in);
 		entrada = new ArqEntrada();
 		ftp = new FTP();
-		iniciar();
 	}
 
 	private void iniciar() {
 		ftp.conectar();
 		ftp.logar();
-		ftp.relogar();
+	}
+	
+	private void finalizar() {
+		ftp.deslogar();
 	}
 
 	protected void finalize() {
-		ftp.deslogar();
+		finalizar();
 		scan.close();
 	}
 
@@ -106,9 +108,10 @@ public class TesteFTP {
 			System.out.println("24 - Data do Arquivo");
 			System.out.println("0 - Sair");
 			int i = lerInt();
+			iniciar();
 			switch (i) {
 			case 0:
-				System.out.println("Saindo...");
+				System.out.println("Saindo...");				
 				return;
 			case 10:
 				criarPasta();
@@ -143,6 +146,7 @@ public class TesteFTP {
 			default:
 				System.out.println("Escolha uma opcao valida");
 			}
+			finalizar();
 		}
 	}
 

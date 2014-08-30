@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
 
 import local.ArqEntrada;
 
-public class FTP implements Runnable {
+public class FTP {
 	private Socket controle;
 	private InputStream isContr;
 	private OutputStream osContr;
@@ -38,7 +38,7 @@ public class FTP implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// System.out.println(resp);
+		System.out.println(resp);
 		return resp;
 	}
 
@@ -54,24 +54,7 @@ public class FTP implements Runnable {
 			e.printStackTrace();
 		}
 	}
-
-	public void relogar() {
-		new Thread(this).start();
-	}
-
-	public void run() {
-		while (true) {
-			try {
-				Thread.sleep(entrada.getIntervalo() * 1000);
-				deslogar();
-				conectar();
-				logar();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
+	
 	private String enviarCmd(String comando) {
 		BufferedReader br;
 		String resp = null;
@@ -82,7 +65,7 @@ public class FTP implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// System.out.println(resp);
+		System.out.println(resp);
 		return resp;
 	}
 

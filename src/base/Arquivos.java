@@ -1,11 +1,19 @@
 package base;
 
-import java.util.ArrayList;
-import java.util.List;
+import heap.Heap;
 
 public abstract class Arquivos {
-	public List<String> getConteudo(String diretorio) {
-		List<String> conteudo = new ArrayList<String>();
-		return conteudo;
+
+	protected Heap heap;
+
+	public Arquivos() {
+		heap = new Heap();
 	}
+
+	public Heap getHeap() {
+		return heap;
+	}
+
+	public abstract int construirHeap(String diretorio);
+	
 }

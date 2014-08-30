@@ -11,14 +11,9 @@ import base.Arquivos;
 
 public class ArqsLocais extends Arquivos {
 	private File arq;
-	private Heap heap;
 
 	public ArqsLocais() {
-		heap = new Heap();
-	}
-
-	public Heap getHeap() {
-		return heap;
+		super();
 	}
 
 	public int construirHeap(String diretorio) {
