@@ -1,9 +1,9 @@
-package mirrorFTP.servidor;
+package servidor;
 
-import mirrorFTP.base.Arquivos;
-import mirrorFTP.heap.Heap;
-import mirrorFTP.heap.NoArq;
-import mirrorFTP.heap.NoDir;
+import heap.Heap;
+import heap.NoArq;
+import heap.NoDir;
+import base.Arquivos;
 
 public class ArqsFTP extends Arquivos {
 	private FTP ftp;

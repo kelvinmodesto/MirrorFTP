@@ -1,6 +1,6 @@
-package mirrorFTP.heap;
+package heap;
 
-import mirrorFTP.base.No;
+import base.No;
 
 public class NoDir extends No {
 

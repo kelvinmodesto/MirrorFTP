@@ -1,9 +1,9 @@
-package mirrorFTP.testes.servidor;
+package testes.servidor;
 
-import mirrorFTP.heap.Heap;
-import mirrorFTP.heap.NoDir;
-import mirrorFTP.local.ArqEntrada;
-import mirrorFTP.servidor.ArqsFTP;
+import servidor.ArqsFTP;
+import heap.Heap;
+import heap.NoDir;
+import local.ArqEntrada;
 
 public class TesteArqsFTP {
 

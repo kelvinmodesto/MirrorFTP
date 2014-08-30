@@ -1,10 +1,10 @@
-package mirrorFTP.testes.local;
+package testes.local;
 
-import mirrorFTP.base.No;
-import mirrorFTP.heap.Heap;
-import mirrorFTP.heap.NoDir;
-import mirrorFTP.local.ArqEntrada;
-import mirrorFTP.local.ArqsLocais;
+import heap.Heap;
+import heap.NoDir;
+import base.No;
+import local.ArqEntrada;
+import local.ArqsLocais;
 
 public class TesteArqs {
 	private ArqsLocais arqsLocal;

@@ -1,8 +1,8 @@
-package mirrorFTP.testes;
+package testes;
 
-import mirrorFTP.heap.Heap;
-import mirrorFTP.heap.NoArq;
-import mirrorFTP.heap.NoDir;
+import heap.Heap;
+import heap.NoArq;
+import heap.NoDir;
 
 public class TesteHeap {
 
@@ -23,15 +23,15 @@ public class TesteHeap {
 
 	protected void inserirRemoto() {
 		heapRemoto.inserirNo(new NoDir("/", "/", 1482336800231L, 1));
-		heapRemoto.inserirNo(new NoDir("pasta0/", "/pasta0/", 1482336800231L, 0));
-		//heapRemoto.inserirNo(new NoArq("arquivo0/", "/pasta0/arquivo0/",1221436800231L, 35.4F));
-		//heapRemoto.inserirNo(new NoArq("arquivo1/","/pasta0/arquivo1/", 1221436000231L, 21.5F));
-		//heapRemoto.inserirNo(new NoArq("arquivo2/", "/pasta0/arquivo2/",1231436800231L, 341.3F));
+		heapRemoto.inserirNo(new NoDir("pasta0/", "/pasta0/", 1482336800231L, 3));
+		heapRemoto.inserirNo(new NoArq("arquivo0/", "/pasta0/arquivo0/",1221436800231L, 35.4F));
+		heapRemoto.inserirNo(new NoArq("arquivo1/","/pasta0/arquivo1/", 1221436000231L, 21.5F));
+		heapRemoto.inserirNo(new NoArq("arquivo2/", "/pasta0/arquivo2/",1231436800231L, 341.3F));
 	}
 
 	protected void inserirLocal() {
-		heapLocal.inserirNo(new NoDir("dirLocal/", "D:/dirLocal/", 1482336800231L, 3));
-		//heapLocal.inserirNo(new NoDir("pasta0/", "D:/dirLocal/pasta0/", 1482336800231L, 3));
+		heapLocal.inserirNo(new NoDir("dirLocal/", "D:/dirLocal/", 1482336800231L, 1));
+		heapLocal.inserirNo(new NoDir("pasta0/", "D:/dirLocal/pasta0/", 1482336800231L, 3));
 		heapLocal.inserirNo(new NoArq("arquivo0/", "D:/dirLocal/arquivo0/", 1221436800231L, 35.4F));
 		heapLocal.inserirNo(new NoArq("arquivo1/", "D:/dirLocal/arquivo1/", 1221436000231L, 21.5F));
 		heapLocal.inserirNo(new NoArq("arquivo2/", "D:/dirLocal/arquivo2/", 1231436800231L, 341.3F));

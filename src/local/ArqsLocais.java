@@ -1,12 +1,13 @@
-package mirrorFTP.local;
+package local;
+
+import heap.Heap;
+import heap.NoArq;
+import heap.NoDir;
 
 import java.io.File;
 import java.io.FileFilter;
 
-import mirrorFTP.base.Arquivos;
-import mirrorFTP.heap.Heap;
-import mirrorFTP.heap.NoArq;
-import mirrorFTP.heap.NoDir;
+import base.Arquivos;
 
 public class ArqsLocais extends Arquivos {
 	private File arq;

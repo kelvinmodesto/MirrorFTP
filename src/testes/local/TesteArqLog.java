@@ -1,28 +1,26 @@
-package mirrorFTP.testes.local;
+package testes.local;
 
-import mirrorFTP.local.ArqLog;
-import mirrorFTP.testes.TesteHeap;
+import testes.TesteHeap;
+import local.ArqLog;
 
 public class TesteArqLog extends TesteHeap {
 
 	private ArqLog arqLog;
 
 	public TesteArqLog() {
+		super();
 		arqLog = new ArqLog();
-		iniciar();
+		escreverLog();
 	}
 
 	protected void iniciar() {
 		inserirRemoto();
 		inserirLocal();
-		escreverLog();
 	}
 
 	private void escreverLog() {
-		if (arqLog != null) {
-			arqLog.escreverHeap(true, heapLocal);
-			arqLog.escreverHeap(false, heapRemoto);
-		}
+		arqLog.escreverHeap(true, heapLocal);
+		arqLog.escreverHeap(false, heapRemoto);
 	}
 
 	public static void main(String[] args) {

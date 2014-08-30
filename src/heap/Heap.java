@@ -1,9 +1,9 @@
-package mirrorFTP.heap;
+package heap;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import mirrorFTP.base.No;
+import base.No;
 
 public class Heap {
 	List<No> lista;

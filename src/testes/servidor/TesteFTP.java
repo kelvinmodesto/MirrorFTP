@@ -1,9 +1,9 @@
-package mirrorFTP.testes.servidor;
+package testes.servidor;
 
 import java.util.Scanner;
 
-import mirrorFTP.local.ArqEntrada;
-import mirrorFTP.servidor.FTP;
+import servidor.FTP;
+import local.ArqEntrada;
 
 public class TesteFTP {
 

@@ -1,4 +1,4 @@
-package mirrorFTP.local;
+package local;
 
 import java.io.BufferedReader;
 import java.io.File;

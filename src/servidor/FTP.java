@@ -1,4 +1,4 @@
-package mirrorFTP.servidor;
+package servidor;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-import mirrorFTP.local.ArqEntrada;
+import local.ArqEntrada;
 
 public class FTP implements Runnable {
 	private Socket controle;

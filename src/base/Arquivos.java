@@ -1,4 +1,4 @@
-package mirrorFTP.base;
+package base;
 
 import java.util.ArrayList;
 import java.util.List;

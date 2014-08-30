@@ -1,4 +1,8 @@
-package mirrorFTP.local;
+package local;
+
+import heap.Heap;
+import heap.NoArq;
+import heap.NoDir;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,10 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
-import mirrorFTP.base.No;
-import mirrorFTP.heap.Heap;
-import mirrorFTP.heap.NoArq;
-import mirrorFTP.heap.NoDir;
+import base.No;
 
 public class ArqLog {
 
