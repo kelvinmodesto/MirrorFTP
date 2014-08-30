@@ -22,16 +22,14 @@ public class Acao {
 		ftp.deslogar();
 	}
 	
+	public void criarDirLocal(String diretorio) {
+		arq = new File(diretorio);
+		arq.mkdir();
+	}
+	
 	public void criarDirRemoto(String diretorio) {
 		iniciar();
 		ftp.criarPasta(diretorio);
-		finalizar();
-	}
-	
-	public void criarDirLocal(String diretorio) {
-		iniciar();
-		arq = new File(diretorio);
-		arq.mkdir();
 		finalizar();
 	}
 	

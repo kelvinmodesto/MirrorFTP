@@ -43,9 +43,6 @@ public class NoDir extends No {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		NoDir other = (NoDir) obj;
-		if (qtd != other.qtd)
-			return false;
 		return true;
 	}
 
