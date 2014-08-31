@@ -77,12 +77,12 @@ public class FTP {
 		enviarCmd("QUIT \r\n");
 	}
 
-	public void criarPasta(String pasta) {
-		enviarCmd("MKD " + pasta + "\r\n");
+	public void criarPasta(String diretorio) {
+		enviarCmd("MKD " + diretorio + "\r\n");
 	}
 
-	public void deletarPasta(String pasta) {
-		enviarCmd("RMD " + pasta + "\r\n");
+	public void deletarPasta(String diretorio) {
+		enviarCmd("RMD " + diretorio + "\r\n");
 	}
 
 	public void mudarDir(String diretorio) {
@@ -147,11 +147,11 @@ public class FTP {
 		enviarCmd("TYPE " + tipo + "\r\n");
 	}
 
-	public void baixarArquivo(String diretorio, String arquivo) {
+	public void baixarArquivo(String dirLocal, String dirServidor) {
 		entrarNoModoPASV();
 		mudarTipo("I");
-		enviarCmd("RETR " + arquivo + "\r\n");
-		File file = new File(diretorio + arquivo);
+		enviarCmd("RETR " + dirServidor + "\r\n");
+		File file = new File(dirLocal);
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(file);
@@ -171,11 +171,11 @@ public class FTP {
 		enviarCmd();
 	}
 
-	public void enviarArquivo(String diretorio, String arquivo) {
+	public void enviarArquivo(String dirLocal, String dirServidor) {
 		entrarNoModoPASV();
 		mudarTipo("I");
-		enviarCmd("STOR " + arquivo + "\r\n");
-		File file = new File(diretorio + arquivo);
+		enviarCmd("STOR " + dirServidor + "\r\n");
+		File file = new File(dirLocal);
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
@@ -202,8 +202,8 @@ public class FTP {
 		enviarCmd("STAT " + diretorio + "/" + arquivo + "\r\n");
 	}
 
-	public long getDataModArq(String arquivo) {
-		String resp = enviarCmd("MDTM " + arquivo + "\r\n").replaceAll(" ", "");
+	public long getDataModArq(String dirServidor) {
+		String resp = enviarCmd("MDTM " + dirServidor + "\r\n").replaceAll(" ", "");
 		return Long.parseLong(resp.substring(3));
 	}
 	

@@ -29,24 +29,6 @@ public class Acao {
 		ftp.deslogar();
 	}
 
-	public void criarDirLocal(String diretorio) {
-		arq = new File(diretorio);
-		arq.mkdir();
-	}
-
-	public void criarDirRemoto(String diretorio) {
-		iniciar();
-		ftp.criarPasta(diretorio);
-		finalizar();
-	}
-
-	public void baixarArq(String diretorio, String arquivo) {
-		iniciar();
-		ftp.baixarArquivo(diretorio, arquivo);
-		finalizar();
-		setDataArq(diretorio + arquivo);
-	}
-
 	private void setDataArq(String diretorio) {
 		iniciar();
 		long data = ftp.getDataModArq(diretorio.replaceFirst(
@@ -63,11 +45,32 @@ public class Acao {
 		}
 	}
 
-	public void enviarArq(String diretorio, String arquivo) {
+	public void criarDirLocal(String diretorio) {
+		arq = new File(diretorio);
+		arq.mkdir();
+		setDataArq(diretorio);
+	}
+
+	public void criarDirRemoto(String diretorio) {
 		iniciar();
-		ftp.enviarArquivo(diretorio, arquivo);
+		ftp.criarPasta(diretorio);
 		finalizar();
-		setDataArq(diretorio + arquivo);
+		setDataArq(diretorio.replaceFirst(entrada.getDirRemoto(),
+				entrada.getDirLocal()));
+	}
+	
+	public void baixarArq(String dirLocal, String dirServidor) {
+		iniciar();
+		ftp.baixarArquivo(dirLocal, dirServidor);
+		finalizar();
+		setDataArq(dirLocal);
+	}
+
+	public void enviarArq(String dirLocal, String dirServidor) {
+		iniciar();
+		ftp.enviarArquivo(dirLocal, dirServidor);
+		finalizar();
+		setDataArq(dirLocal);
 	}
 
 }

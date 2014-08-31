@@ -1,44 +1,27 @@
 package principal;
 
 import heap.Heap;
-import heap.NoArq;
-import heap.NoDir;
 import local.ArqEntrada;
 import local.Local;
+import servidor.Servidor;
 import base.No;
 
 public class Comparar {
 
 	private Local local;
-	//private Servidor servidor;
+	private Servidor servidor;
 	private Heap heapLocal, heapRemoto;
 	private Acao acao;
 	private ArqEntrada entrada;
 
 	public Comparar() {
 		local = new Local();
-		// servidor = new Servidor();
+		servidor = new Servidor();
 		heapLocal = local.getHeap();
-		// heapRemoto = servidor.getHeap();
-		heapRemoto = new Heap();
-		inserirHeapRemoto();
+		heapRemoto = servidor.getHeap();
 		acao = new Acao();
 		entrada = new ArqEntrada();
 		iniciar();
-	}
-
-	private void inserirHeapRemoto() {
-		heapRemoto.inserirNo(new NoDir("/", "/", 0, 2));
-		heapRemoto.inserirNo(new NoArq("teste.txt", "/teste.txt",
-				20140824181009L, 0.0F));
-		heapRemoto
-				.inserirNo(new NoDir("pasta/", "/pasta/", 20140830150204L, 2));
-		heapRemoto.inserirNo(new NoArq("teste4.input", "/pasta/teste4.input",
-				20140828180735L, 0.0F));
-		heapRemoto.inserirNo(new NoDir("pasta1/", "/pasta/pasta1/",
-				20140829142104L, 1));
-		heapRemoto.inserirNo(new NoArq("teste6.jpg",
-				"/pasta/pasta1/teste6.jpg", 20140829141938L, 0.0F));
 	}
 
 	private void iniciar() {
@@ -50,11 +33,9 @@ public class Comparar {
 				e.printStackTrace();
 			}
 			local.reiniciarHeap();
-			//servidor.reiniciarHeap();
+			servidor.reiniciarHeap();
 			heapLocal = local.getHeap();
-			//heapRemoto = servidor.getHeap();
-			heapRemoto.limparHeap();
-			inserirHeapRemoto();
+			heapRemoto = servidor.getHeap();
 		}
 	}
 
@@ -76,10 +57,8 @@ public class Comparar {
 				entrada.getDirLocal());
 		if (no.getNome().endsWith("/"))
 			acao.criarDirLocal(diretorio);
-		else {
-			diretorio = diretorio.replaceFirst(no.getNome(), "");
-			acao.baixarArq(diretorio, no.getNome());
-		}
+		else
+			acao.baixarArq(diretorio, no.getCaminho());
 		return no;
 	}
 
@@ -105,13 +84,10 @@ public class Comparar {
 		String diretorio;
 		diretorio = no.getCaminho().replaceFirst(entrada.getDirLocal(),
 				entrada.getDirRemoto());
-		no.setCaminho(diretorio);
 		if (no.getNome().endsWith("/"))
 			acao.criarDirRemoto(diretorio);
-		else {
-			diretorio = diretorio.replaceFirst(no.getNome(), "");
-			acao.baixarArq(diretorio, no.getNome());
-		}
+		else
+			acao.enviarArq(no.getCaminho(), diretorio);
 		return no;
 	}
 
