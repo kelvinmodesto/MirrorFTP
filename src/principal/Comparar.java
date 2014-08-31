@@ -60,6 +60,7 @@ public class Comparar {
 			acao.criarDirLocal(diretorio,no.getData());
 		else
 			acao.baixarArq(diretorio, no.getCaminho());
+		no.setCaminho(diretorio);
 		return no;
 	}
 
@@ -89,6 +90,7 @@ public class Comparar {
 			acao.criarDirRemoto(diretorio);
 		else
 			acao.enviarArq(no.getCaminho(), diretorio);
+		no.setCaminho(diretorio);
 		return no;
 	}
 

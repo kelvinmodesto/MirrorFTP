@@ -37,7 +37,6 @@ public class FTP {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(resp);
 		return resp;
 	}
 
