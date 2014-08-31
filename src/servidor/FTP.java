@@ -204,6 +204,7 @@ public class FTP {
 
 	public long getDataModArq(String dirServidor) {
 		String resp = enviarCmd("MDTM " + dirServidor + "\r\n").replaceAll(" ", "");
+		System.out.println(resp.substring(3));
 		return Long.parseLong(resp.substring(3));
 	}
 	

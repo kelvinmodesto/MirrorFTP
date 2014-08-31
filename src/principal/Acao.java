@@ -29,11 +29,7 @@ public class Acao {
 		ftp.deslogar();
 	}
 
-	private void setDataArq(String diretorio) {
-		iniciar();
-		long data = ftp.getDataModArq(diretorio.replaceFirst(
-				entrada.getDirLocal(), entrada.getDirRemoto()));
-		finalizar();
+	private void setDataArq(String diretorio, long data) {
 		arq = new File(diretorio);
 		SimpleDateFormat formato = new SimpleDateFormat("yyyyMMddHHmmss");
 		formato.setTimeZone(TimeZone.getTimeZone("UTC-3"));
@@ -45,10 +41,18 @@ public class Acao {
 		}
 	}
 
-	public void criarDirLocal(String diretorio) {
+	private void setDataArq(String diretorio) {
+		iniciar();
+		long data = ftp.getDataModArq(diretorio.replaceFirst(
+				entrada.getDirLocal(), entrada.getDirRemoto()));
+		finalizar();
+		setDataArq(diretorio, data);
+	}
+
+	public void criarDirLocal(String diretorio,long data) {
 		arq = new File(diretorio);
 		arq.mkdir();
-		setDataArq(diretorio);
+		setDataArq(diretorio,data);
 	}
 
 	public void criarDirRemoto(String diretorio) {
@@ -56,9 +60,9 @@ public class Acao {
 		ftp.criarPasta(diretorio);
 		finalizar();
 		setDataArq(diretorio.replaceFirst(entrada.getDirRemoto(),
-				entrada.getDirLocal()));
+				entrada.getDirLocal()),new Date().getTime());
 	}
-	
+
 	public void baixarArq(String dirLocal, String dirServidor) {
 		iniciar();
 		ftp.baixarArquivo(dirLocal, dirServidor);

@@ -56,7 +56,7 @@ public class Comparar {
 		diretorio = no.getCaminho().replaceFirst(entrada.getDirRemoto(),
 				entrada.getDirLocal());
 		if (no.getNome().endsWith("/"))
-			acao.criarDirLocal(diretorio);
+			acao.criarDirLocal(diretorio,no.getData());
 		else
 			acao.baixarArq(diretorio, no.getCaminho());
 		return no;
