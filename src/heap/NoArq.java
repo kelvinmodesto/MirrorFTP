@@ -26,6 +26,14 @@ public class NoArq extends No {
 	public String toString() {
 		return super.toString() + " - " + tam + "]";
 	}
+	
+	public boolean isEqualsData(No no) {
+		return data == no.getData();
+	}
+
+	public boolean isMaiorData(No no) {
+		return data > no.getData();
+	}
 
 	@Override
 	public int hashCode() {
@@ -44,8 +52,6 @@ public class NoArq extends No {
 		if (getClass() != obj.getClass())
 			return false;
 		NoArq other = (NoArq) obj;
-		if (data != other.data)
-			return false;
 		if (Float.floatToIntBits(tam) != Float.floatToIntBits(other.tam))
 			return false;
 		return true;

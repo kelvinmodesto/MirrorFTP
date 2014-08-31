@@ -52,7 +52,7 @@ public class FTP {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private String enviarCmd(String comando) {
 		BufferedReader br;
 		String resp = null;
@@ -193,19 +193,19 @@ public class FTP {
 		enviarCmd();
 	}
 
-	public void deletarArquivo(String diretorio, String arquivo) {
-		enviarCmd("DELE " + diretorio + "/" + arquivo + "\r\n");
+	public void deletarArquivo(String dirServidor) {
+		enviarCmd("DELE " + dirServidor + "\r\n");
 	}
 
-	public void statusArquivo(String diretorio, String arquivo) {
-		enviarCmd("STAT " + diretorio + "/" + arquivo + "\r\n");
+	public void statusArquivo(String dirServidor) {
+		enviarCmd("STAT " + dirServidor + "\r\n");
 	}
 
 	public long getDataModArq(String dirServidor) {
-		String resp = enviarCmd("MDTM " + dirServidor + "\r\n").replaceAll(" ", "");
+		String resp = enviarCmd("MDTM " + dirServidor + "\r\n").replaceAll(" ",
+				"");
 		System.out.println(resp.substring(3));
 		return Long.parseLong(resp.substring(3));
 	}
-	
 
 }

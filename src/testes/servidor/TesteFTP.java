@@ -21,7 +21,7 @@ public class TesteFTP {
 		ftp.conectar();
 		ftp.logar();
 	}
-	
+
 	private void finalizar() {
 		ftp.deslogar();
 	}
@@ -73,12 +73,12 @@ public class TesteFTP {
 
 	private void excluirArq() {
 		System.out.println("[Excluir Arquivo]");
-		ftp.deletarArquivo(entrada.getDirRemoto(), ler());
+		ftp.deletarArquivo(entrada.getDirRemoto() + ler());
 	}
 
 	private void detalharArq() {
 		System.out.println("[Detalhar Arquivo]");
-		ftp.statusArquivo(entrada.getDirRemoto(), ler());
+		ftp.statusArquivo(entrada.getDirRemoto() + ler());
 	}
 
 	private void mostrarDataModArq() {
@@ -111,7 +111,7 @@ public class TesteFTP {
 			iniciar();
 			switch (i) {
 			case 0:
-				System.out.println("Saindo...");				
+				System.out.println("Saindo...");
 				return;
 			case 10:
 				criarPasta();
@@ -148,7 +148,7 @@ public class TesteFTP {
 			}
 			finalizar();
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(60000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

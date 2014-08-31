@@ -49,7 +49,7 @@ public class Acao {
 		setDataArq(diretorio, data);
 	}
 
-	public void criarDirLocal(String diretorio,long data) {
+	public void criarDirLocal(String diretorio) {
 		arq = new File(diretorio);
 		arq.mkdir();
 	}
@@ -72,6 +72,17 @@ public class Acao {
 		ftp.enviarArquivo(dirLocal, dirServidor);
 		finalizar();
 		setDataArq(dirLocal);
+	}
+	
+	public void removerArqLocal(String diretorio) {
+		arq = new File(diretorio);
+		arq.delete();
+	}
+	
+	public void removerArqRemoto(String diretorio) {
+		iniciar();
+		ftp.deletarArquivo(diretorio);
+		finalizar();
 	}
 
 }

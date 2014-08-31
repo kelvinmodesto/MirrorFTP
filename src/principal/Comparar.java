@@ -1,6 +1,7 @@
 package principal;
 
 import heap.Heap;
+import heap.NoArq;
 import local.ArqEntrada;
 import local.Local;
 import servidor.Servidor;
@@ -40,7 +41,7 @@ public class Comparar {
 	}
 
 	private void comparar() {
-		System.out.println();
+		System.out.println("======Comparacao dos diretorios locais e do servidor======");
 		if (heapRemoto.equals(heapLocal))
 			System.out.println("Sincronizado");
 		else {
@@ -49,63 +50,100 @@ public class Comparar {
 			while (!compararLocal())
 				;
 		}
-		System.out.println();
+		System.out.println("===================Comparacao finalizada==================");
 	}
 
-	private No sincRemoto(No no) {
-		String diretorio;
-		diretorio = no.getCaminho().replaceFirst(entrada.getDirRemoto(),
+	private String mudarDoDirRemoto(No no) {
+		return no.getCaminho().replaceFirst(entrada.getDirRemoto(),
 				entrada.getDirLocal());
+	}
+
+	private No criarDoRemoto(No no) {
 		if (no.getNome().endsWith("/"))
-			acao.criarDirLocal(diretorio,no.getData());
+			acao.criarDirLocal(mudarDoDirRemoto(no));
 		else
-			acao.baixarArq(diretorio, no.getCaminho());
-		no.setCaminho(diretorio);
+			acao.baixarArq(mudarDoDirRemoto(no), no.getCaminho());
+		no.setCaminho(mudarDoDirRemoto(no));
+		return no;
+	}
+
+	private No atualizarDoRemoto(No no) {
+		acao.removerArqLocal(mudarDoDirRemoto(no));
+		acao.baixarArq(no.getCaminho(), mudarDoDirRemoto(no));
+		no.setCaminho(mudarDoDirRemoto(no));
 		return no;
 	}
 
 	private boolean compararRemoto() {
-		No no;
+		No noRemoto, noLocal;
 		for (int i = 1; i < heapRemoto.getTam(); i++) {
-			no = heapRemoto.getNo(i);
+			noRemoto = heapRemoto.getNo(i);
 			if (!(i < heapLocal.getTam())) {
-				System.out.println("Não achou " + no + " no dir Local");
-				heapLocal.inserirNo(i, sincRemoto(no));
+				System.out.println("Nao achou " + noRemoto + " no dir Local");
+				heapLocal.inserirNo(i, criarDoRemoto(noRemoto));
 				return false;
-			} else if (!heapLocal.getNo(i).equals(no)) {
-				System.out.println("Não achou " + no + " no dir Local");
-				heapLocal.inserirNo(i, sincRemoto(no));
+			}
+			noLocal = heapLocal.getNo(i);
+			if (!noLocal.equals(noRemoto)) {
+				System.out.println("Nao achou " + noRemoto + " no dir Local");
+				heapLocal.inserirNo(i, criarDoRemoto(noRemoto));
 				return false;
+			} else if (!noRemoto.getNome().endsWith("/")) {
+				NoArq aux = (NoArq) noRemoto;
+				if (!aux.isEqualsData(noLocal) && aux.isMaiorData(noLocal)) {
+					System.out.println(noLocal + " esta desatualizado");
+					heapLocal.substituirNo(i, atualizarDoRemoto(noRemoto));
+					return false;
+				}
 			}
 		}
 		System.out.println("Sincronizado no dir Local");
 		return true;
 	}
 
-	private No sincLocal(No no) {
-		String diretorio;
-		diretorio = no.getCaminho().replaceFirst(entrada.getDirLocal(),
+	private String mudarDoDirLocal(No no) {
+		return no.getCaminho().replaceFirst(entrada.getDirLocal(),
 				entrada.getDirRemoto());
+	}
+
+	private No criarDoLocal(No no) {
 		if (no.getNome().endsWith("/"))
-			acao.criarDirRemoto(diretorio);
+			acao.criarDirRemoto(mudarDoDirLocal(no));
 		else
-			acao.enviarArq(no.getCaminho(), diretorio);
-		no.setCaminho(diretorio);
+			acao.enviarArq(no.getCaminho(), mudarDoDirLocal(no));
+		no.setCaminho(mudarDoDirLocal(no));
+		return no;
+	}
+
+	private No atualizarDoLocal(No no) {
+		acao.removerArqRemoto(mudarDoDirLocal(no));
+		acao.enviarArq(no.getCaminho(), mudarDoDirLocal(no));
+		no.setCaminho(mudarDoDirLocal(no));
 		return no;
 	}
 
 	private boolean compararLocal() {
-		No no;
+		No noLocal, noRemoto;
 		for (int i = 1; i < heapLocal.getTam(); i++) {
-			no = heapLocal.getNo(i);
+			noLocal = heapLocal.getNo(i);
 			if (!(i < heapRemoto.getTam())) {
-				System.out.println("Não achou " + no + " no dir Remoto");
-				heapRemoto.inserirNo(i, sincLocal(no));
+				System.out.println("Nao achou " + noLocal + " no dir Remoto");
+				heapRemoto.inserirNo(i, criarDoLocal(noLocal));
 				return false;
-			} else if (!heapLocal.getNo(i).equals(no)) {
-				System.out.println("Não achou " + no + " no dir Remoto");
-				heapRemoto.inserirNo(i, sincLocal(no));
+			}
+			noRemoto = heapRemoto.getNo(i);
+			if (!noRemoto.equals(noLocal)) {
+				System.out.println("Nao achou " + noLocal + " no dir Remoto");
+				heapRemoto.inserirNo(i, criarDoLocal(noLocal));
 				return false;
+			} else if (!noLocal.getNome().endsWith("/")) {
+				NoArq aux = (NoArq) noLocal;
+				if (!aux.isEqualsData(noRemoto) && aux.isMaiorData(noRemoto)) {
+					System.out.println(noRemoto + " esta desatualizado");
+					heapRemoto.substituirNo(i, atualizarDoLocal(noLocal));
+					return false;
+				}
+
 			}
 		}
 		System.out.println("Sincronizado no dir Remoto");

@@ -19,10 +19,10 @@ public class Heap {
 	public No getNo(int index) {
 		return lista.get(index);
 	}
-	
+
 	public No getNo(String nome) {
 		for (int i = 0; i < getTam(); i++) {
-			if(getNo(i).getNome().equals(nome))
+			if (getNo(i).getNome().equals(nome))
 				return getNo(i);
 		}
 		return null;
@@ -41,7 +41,16 @@ public class Heap {
 			inserirNo(heap.getNo(i));
 		}
 	}
-	
+
+	public void removerNo(int ind) {
+		lista.remove(ind);
+	}
+
+	public void substituirNo(int ind, No no) {
+		removerNo(ind);
+		inserirNo(ind, no);
+	}
+
 	public void limparHeap() {
 		lista.clear();
 	}
@@ -79,10 +88,14 @@ public class Heap {
 				return false;
 			if (getTam() != other.getTam())
 				return false;
-			else
+			else {
+				boolean resultado = true;
 				for (int i = 0; i < getTam(); i++) {
-					getNo(i).equals(other.getNo(i));
+					resultado &= getNo(i).equals(other.getNo(i));
+					resultado &= getNo(i).getData() != other.getNo(i).getData();
 				}
+				return resultado;
+			}
 		}
 		return true;
 	}
