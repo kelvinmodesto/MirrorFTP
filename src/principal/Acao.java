@@ -52,15 +52,12 @@ public class Acao {
 	public void criarDirLocal(String diretorio,long data) {
 		arq = new File(diretorio);
 		arq.mkdir();
-		setDataArq(diretorio,data);
 	}
 
 	public void criarDirRemoto(String diretorio) {
 		iniciar();
 		ftp.criarPasta(diretorio);
 		finalizar();
-		setDataArq(diretorio.replaceFirst(entrada.getDirRemoto(),
-				entrada.getDirLocal()),new Date().getTime());
 	}
 
 	public void baixarArq(String dirLocal, String dirServidor) {

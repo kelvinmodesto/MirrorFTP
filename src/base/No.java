@@ -1,9 +1,9 @@
 package base;
 
 public abstract class No {
-	private String nome;
-	private String caminho;
-	private long data;
+	protected String nome;
+	protected String caminho;
+	protected long data;
 
 	public No(String nome, String caminho, long data) {
 		this.nome = nome;
@@ -56,9 +56,7 @@ public abstract class No {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		No other = (No) obj;
-		if (data != other.data)
-			return false;
+		No other = (No) obj;		
 		if (nome == null) {
 			if (other.nome != null)
 				return false;

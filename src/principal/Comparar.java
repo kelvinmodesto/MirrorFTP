@@ -49,6 +49,7 @@ public class Comparar {
 			while (!compararLocal())
 				;
 		}
+		System.out.println();
 	}
 
 	private No sincRemoto(No no) {

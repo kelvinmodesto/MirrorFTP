@@ -45,5 +45,4 @@ public class NoDir extends No {
 			return false;
 		return true;
 	}
-
 }

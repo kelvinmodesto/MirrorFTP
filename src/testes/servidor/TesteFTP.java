@@ -147,6 +147,11 @@ public class TesteFTP {
 				System.out.println("Escolha uma opcao valida");
 			}
 			finalizar();
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

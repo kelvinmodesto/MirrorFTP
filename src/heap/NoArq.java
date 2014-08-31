@@ -44,6 +44,8 @@ public class NoArq extends No {
 		if (getClass() != obj.getClass())
 			return false;
 		NoArq other = (NoArq) obj;
+		if (data != other.data)
+			return false;
 		if (Float.floatToIntBits(tam) != Float.floatToIntBits(other.tam))
 			return false;
 		return true;
