@@ -12,7 +12,7 @@ public class ArqsFTP extends Arquivos {
 		super();
 		ftp = new FTP();
 	}
-	
+
 	public int construirHeap(String diretorio) {
 		ftp.conectar();
 		ftp.logar();
@@ -32,8 +32,8 @@ public class ArqsFTP extends Arquivos {
 			for (int i = 0; i < lista.length; i++) {
 				aux = getDadosDirArq(lista[i]);
 				if (aux[0] != "" && !aux[0].endsWith("/")) {
-					no = new NoArq(aux[0], diretorio + aux[0],
-							Long.parseLong(aux[1])-30000);
+					long data = Long.parseLong(aux[1]) - 30000;
+					no = new NoArq(aux[0], diretorio + aux[0], data);
 					float tam;
 					if ((tam = Float.parseFloat(aux[2])) > 0)
 						no.setTam(tam);
@@ -52,8 +52,8 @@ public class ArqsFTP extends Arquivos {
 			for (int i = 0; i < lista.length; i++) {
 				aux = getDadosDirArq(lista[i]);
 				if (aux[0] != "" && aux[0].endsWith("/")) {
-					no = new NoDir(aux[0], diretorio + aux[0],
-							Long.parseLong(aux[1])-30000);
+					long data = Long.parseLong(aux[1]) - 30000;
+					no = new NoDir(aux[0], diretorio + aux[0], data);
 					heap.inserirNo(no);
 				}
 

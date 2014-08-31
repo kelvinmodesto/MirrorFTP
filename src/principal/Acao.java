@@ -40,7 +40,18 @@ public class Acao {
 		finalizar();
 	}
 
-	private void setDataArq(String diretorio, long data) {
+	public void baixarArq(String diretorio, String arquivo) {
+		iniciar();
+		ftp.baixarArquivo(diretorio, arquivo);
+		finalizar();
+		setDataArq(diretorio + arquivo);
+	}
+
+	private void setDataArq(String diretorio) {
+		iniciar();
+		long data = ftp.getDataModArq(diretorio.replaceFirst(
+				entrada.getDirLocal(), entrada.getDirRemoto()));
+		finalizar();
 		arq = new File(diretorio);
 		SimpleDateFormat formato = new SimpleDateFormat("yyyyMMddHHmmss");
 		formato.setTimeZone(TimeZone.getTimeZone("UTC-3"));
@@ -50,21 +61,6 @@ public class Acao {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void baixarArq(String diretorio, String arquivo, long data) {
-		iniciar();
-		ftp.baixarArquivo(diretorio, arquivo);
-		finalizar();
-		setDataArq(diretorio + arquivo, data);
-	}
-
-	private void setDataArq(String diretorio) {
-		iniciar();
-		long data = ftp.getDataModArq(diretorio.replaceFirst(
-				entrada.getDirLocal(), entrada.getDirRemoto()));
-		finalizar();
-		setDataArq(diretorio, data);
 	}
 
 	public void enviarArq(String diretorio, String arquivo) {

@@ -74,12 +74,11 @@ public class Comparar {
 		String diretorio;
 		diretorio = no.getCaminho().replaceFirst(entrada.getDirRemoto(),
 				entrada.getDirLocal());
-		no.setCaminho(diretorio);
 		if (no.getNome().endsWith("/"))
 			acao.criarDirLocal(diretorio);
 		else {
 			diretorio = diretorio.replaceFirst(no.getNome(), "");
-			acao.baixarArq(diretorio, no.getNome(),no.getData());
+			acao.baixarArq(diretorio, no.getNome());
 		}
 		return no;
 	}
@@ -111,7 +110,7 @@ public class Comparar {
 			acao.criarDirRemoto(diretorio);
 		else {
 			diretorio = diretorio.replaceFirst(no.getNome(), "");
-			acao.baixarArq(diretorio, no.getNome(), no.getData());
+			acao.baixarArq(diretorio, no.getNome());
 		}
 		return no;
 	}
